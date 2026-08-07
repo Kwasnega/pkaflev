@@ -24,7 +24,7 @@ export default function Home() {
       <div className="snap-start relative">
         <PkaflevHero
           videoSrc={heroImages[1]?.videoUrl || ""}
-          imageSrc={heroImages[1]?.url || "/SMimages/pic5.webp"}
+          imageSrc={heroImages[1]?.url || "/purescooter.jpg"}
           leftText="FROM CITY TO COMMUTE"
           leftButtonText="SHOP RIDES"
           leftButtonHref="/shop?category=ELECTRIC%20SCOOTERS"

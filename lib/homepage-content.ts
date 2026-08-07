@@ -20,6 +20,9 @@ export interface SiteMediaConfig {
   partnerHeroVideo?: string;
 }
 
+const REPLACEMENT_HERO_IMAGE = "/purescooter.jpg";
+const LEGACY_HERO_IMAGE = "/SMimages/pic5.webp";
+
 export const DEFAULT_HERO_IMAGES: HeroImage[] = [
   {
     id: "hero1",
@@ -29,7 +32,7 @@ export const DEFAULT_HERO_IMAGES: HeroImage[] = [
   },
   {
     id: "hero2",
-    url: "/SMimages/pic5.webp",
+    url: REPLACEMENT_HERO_IMAGE,
     position: 2,
     videoUrl: "",
   },
@@ -64,7 +67,7 @@ const SITE_MEDIA_STORAGE_KEY = "pkaf_site_media_config";
 export const getDefaultSiteMediaConfig = (): SiteMediaConfig => ({
   heroImages: DEFAULT_HERO_IMAGES,
   featuredCollections: DEFAULT_FEATURED_COLLECTIONS,
-  partnerHeroImage: "/SMimages/pic5.webp",
+  partnerHeroImage: REPLACEMENT_HERO_IMAGE,
   partnerHeroVideo: "",
 });
 
@@ -78,10 +81,19 @@ export function getStoredSiteMediaConfig(): SiteMediaConfig {
     const parsed = JSON.parse(saved) as Partial<SiteMediaConfig>;
     const defaultConfig = getDefaultSiteMediaConfig();
 
+    const heroImages = parsed.heroImages?.length ? parsed.heroImages : defaultConfig.heroImages;
+
     return {
-      heroImages: parsed.heroImages?.length ? parsed.heroImages : defaultConfig.heroImages,
+      heroImages: heroImages.map((hero) =>
+        hero.position === 2 && hero.url === LEGACY_HERO_IMAGE
+          ? { ...hero, url: REPLACEMENT_HERO_IMAGE }
+          : hero
+      ),
       featuredCollections: parsed.featuredCollections?.length ? parsed.featuredCollections : defaultConfig.featuredCollections,
-      partnerHeroImage: parsed.partnerHeroImage || defaultConfig.partnerHeroImage,
+      partnerHeroImage:
+        parsed.partnerHeroImage === LEGACY_HERO_IMAGE
+          ? REPLACEMENT_HERO_IMAGE
+          : parsed.partnerHeroImage || defaultConfig.partnerHeroImage,
       partnerHeroVideo: parsed.partnerHeroVideo || "",
     };
   } catch {
