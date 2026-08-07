@@ -1,0 +1,142 @@
+[
+  {
+    "id": "order_001",
+    "orderNumber": "SM-2025-001",
+    "userId": "user_001",
+    "items": [
+      {
+        "productId": "pkaf-001",
+        "name": "Volt X1 Electric Scooter",
+        "price": 4850,
+        "quantity": 1,
+        "image": "/images/products/scooter-1.jpg",
+        "unitPrice": 4850,
+        "lineTotal": 4850
+      },
+      {
+        "productId": "pkaf-013",
+        "name": "Aero Full-Face Helmet",
+        "price": 450,
+        "quantity": 1,
+        "image": "/images/products/helmet-1.jpg",
+        "unitPrice": 450,
+        "lineTotal": 450
+      }
+    ],
+    "shippingAddress": {
+      "name": "Amanda Boateng",
+      "email": "amanda@stylemaverik.com",
+      "phone": "+233501234567",
+      "address": "12 Labone Avenue",
+      "city": "Accra",
+      "country": "Ghana"
+    },
+    "billingAddress": {
+      "name": "Amanda Boateng",
+      "email": "amanda@stylemaverik.com",
+      "phone": "+233501234567",
+      "address": "12 Labone Avenue",
+      "city": "Accra",
+      "country": "Ghana"
+    },
+    "paymentMethod": "Mock",
+    "subtotal": 360,
+    "shipping": 25,
+    "tax": 18,
+    "total": 403,
+    "paymentReference": "mock_ref_001",
+    "status": "processing",
+    "paymentStatus": "paid",
+    "createdAt": "2025-02-02T14:12:00.000Z",
+    "updatedAt": "2025-02-02T14:12:00.000Z",
+    "receiptSent": true,
+    "receiptSentAt": "2025-02-02T14:15:00.000Z"
+  },
+  {
+    "id": "order_002",
+    "orderNumber": "SM-2025-002",
+    "userId": "user_003",
+    "items": [
+      {
+        "productId": "pkaf-005",
+        "name": "Ranger Pro E-Bike",
+        "price": 9800,
+        "quantity": 1,
+        "image": "/images/products/ebike-1.jpg",
+        "unitPrice": 9800,
+        "lineTotal": 9800
+      }
+    ],
+    "shippingAddress": {
+      "name": "Nana Agyeman",
+      "email": "nana@stylemaverik.com",
+      "phone": "+233542345678",
+      "address": "44 Cantonments Road",
+      "city": "Kumasi",
+      "country": "Ghana"
+    },
+    "billingAddress": {
+      "name": "Nana Agyeman",
+      "email": "nana@stylemaverik.com",
+      "phone": "+233542345678",
+      "address": "44 Cantonments Road",
+      "city": "Kumasi",
+      "country": "Ghana"
+    },
+    "paymentMethod": "Mock",
+    "subtotal": 180,
+    "shipping": 25,
+    "tax": 9,
+    "total": 214,
+    "paymentReference": "mock_ref_002",
+    "status": "shipped",
+    "paymentStatus": "paid",
+    "createdAt": "2025-03-07T10:30:00.000Z",
+    "updatedAt": "2025-03-07T10:30:00.000Z",
+    "receiptSent": true,
+    "receiptSentAt": "2025-03-07T10:32:00.000Z"
+  },
+  {
+    "id": "order_003",
+    "orderNumber": "SM-2025-003",
+    "userId": "user_001",
+    "items": [
+      {
+        "productId": "pkaf-009",
+        "name": "Thunder 150 Electric Motorbike",
+        "price": 18500,
+        "quantity": 1,
+        "image": "/images/products/motorbike-1.jpg",
+        "unitPrice": 18500,
+        "lineTotal": 18500
+      }
+    ],
+    "shippingAddress": {
+      "name": "Amanda Boateng",
+      "email": "amanda@stylemaverik.com",
+      "phone": "+233501234567",
+      "address": "8 East Legon Road",
+      "city": "Accra",
+      "country": "Ghana"
+    },
+    "billingAddress": {
+      "name": "Amanda Boateng",
+      "email": "amanda@stylemaverik.com",
+      "phone": "+233501234567",
+      "address": "8 East Legon Road",
+      "city": "Accra",
+      "country": "Ghana"
+    },
+    "paymentMethod": "Mock",
+    "subtotal": 140,
+    "shipping": 25,
+    "tax": 7,
+    "total": 172,
+    "paymentReference": "mock_ref_003",
+    "status": "cancelled",
+    "paymentStatus": "pending",
+    "createdAt": "2025-03-12T17:00:00.000Z",
+    "updatedAt": "2025-03-12T17:00:00.000Z",
+    "receiptSent": false
+  }
+]

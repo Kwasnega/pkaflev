@@ -1,0 +1,38 @@
+[
+  {
+    "id": "address_001",
+    "userId": "user_001",
+    "name": "Amanda Boateng",
+    "phone": "+233501234567",
+    "address": "12 Labone Avenue",
+    "city": "Accra",
+    "country": "Ghana",
+    "isDefault": true,
+    "createdAt": "2025-01-10T10:00:00.000Z",
+    "updatedAt": "2025-01-10T10:00:00.000Z"
+  },
+  {
+    "id": "address_002",
+    "userId": "user_001",
+    "name": "Amanda Boateng",
+    "phone": "+233501234567",
+    "address": "8 East Legon Road",
+    "city": "Accra",
+    "country": "Ghana",
+    "isDefault": false,
+    "createdAt": "2025-02-15T16:40:00.000Z",
+    "updatedAt": "2025-02-15T16:40:00.000Z"
+  },
+  {
+    "id": "address_003",
+    "userId": "user_003",
+    "name": "Nana Agyeman",
+    "phone": "+233542345678",
+    "address": "44 Cantonments Road",
+    "city": "Kumasi",
+    "country": "Ghana",
+    "isDefault": true,
+    "createdAt": "2025-03-05T12:45:00.000Z",
+    "updatedAt": "2025-03-05T12:45:00.000Z"
+  }
+]

@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* Custom fonts loaded from local assets */
+@font-face {
+  font-family: 'Futuracyrillic Light';
+  src: url('/fonts/FuturaCyrillicLight.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Futuracyrillic ExtraBold';
+  src: url('/fonts/FuturaCyrillicExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --hero-circle: #2563eb;
+}
+
+:root.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --hero-circle: #eab308;
+}
+
+:root[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #171717;
+  --hero-circle: #2563eb;
+}
+
+:root[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --hero-circle: #eab308;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-hero-circle: var(--hero-circle);
+  /* Set default font variables to Futuracyrillic family for site-wide consistency */
+  --font-sans: 'Futuracyrillic Light', ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-mono: 'Futuracyrillic ExtraBold', ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(.dark) {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+/* FUTURACYRILLIC FONT OVERRIDES */
+body {
+  font-family: 'Futuracyrillic Light', ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Futuracyrillic ExtraBold', ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  text-transform: uppercase;
+}
+
+/* =====================
+   MOBILE OPTIMIZATION
+   ===================== */
+
+/* Smooth scroll on iOS */
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent horizontal overflow on mobile */
+body, #__next {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Safe area insets for notched phones */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-top { padding-top: env(safe-area-inset-top); }
+}
+
+/* Touch target minimum — 44x44 per Apple HIG */
+button, a, [role="button"] {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Prevent text size adjustment on orientation change */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Better mobile input styles */
+input, textarea, select {
+  font-size: 16px; /* prevents iOS auto-zoom on focus */
+  border-radius: 0; /* prevents iOS button styling */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* No scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Mobile hero text guard — prevent overflow */
+@media (max-width: 640px) {
+  .hero-text {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Cookie banner safe area on mobile */
+@media (max-width: 640px) {
+  .cookie-banner {
+    bottom: calc(env(safe-area-inset-bottom) + 1rem);
+  }
+}
+
+/* =====================
+   MARQUEE ANIMATION
+   ===================== */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+/* =====================
+   SKELETON SHIMMER
+   ===================== */
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
