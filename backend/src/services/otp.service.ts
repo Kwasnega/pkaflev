@@ -6,8 +6,9 @@ const MAX_MAIL_ATTEMPTS = 3;
 const MAIL_RETRY_DELAY_MS = 1000;
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 465,
+  host: process.env.SMTP_HOST, // will read 'smtp.mailgun.org'
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: false, // Mailgun uses STARTTLS on port 587
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
