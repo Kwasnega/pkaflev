@@ -152,46 +152,46 @@ export default function AddProductPage() {
     };
 
     return (
-        <div className="flex flex-col gap-8 max-w-3xl mx-auto">
+        <div className="flex flex-col gap-8 max-w-4xl mx-auto text-slate-900">
             <header className="flex items-center gap-4">
                 <Link
                     href="/admin/products"
-                    className="p-2 border border-foreground/10 rounded-full hover:bg-foreground/5 transition-colors"
+                    className="p-2 border border-slate-300 rounded-full hover:bg-slate-100 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5" />
                 </Link>
                 <div>
                     <h1 className="text-3xl font-mono font-bold tracking-tight">Add New Product</h1>
-                    <p className="text-sm font-medium opacity-60">
+                    <p className="text-sm font-medium text-slate-500">
                         Create a new item in your store's catalog.
                     </p>
                 </div>
             </header>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-8 bg-background border border-foreground/10 rounded-xl p-6 md:p-8 shadow-sm">
+            <form onSubmit={handleSubmit} className="admin-product-form flex flex-col gap-8 bg-white border border-slate-200 rounded-xl p-6 md:p-8 shadow-sm">
 
                 {/* Image Upload Area */}
                 <div className="flex flex-col gap-4">
-                    <label className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
+                    <label className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">
                         Product Images (At least 1 required, max 3)
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {previewImages.map((img, idx) => (
-                            <div key={idx} className="relative aspect-square border border-foreground/10 rounded-xl overflow-hidden group bg-foreground/5">
+                            <div key={idx} className="relative aspect-square border border-slate-200 rounded-xl overflow-hidden group bg-slate-50">
                                 <img src={img} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
                                 <button
                                     type="button"
                                     onClick={() => removeImage(idx)}
-                                    className="absolute top-2 right-2 p-1.5 bg-background border border-foreground/10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                    className="absolute top-2 right-2 p-1.5 bg-white border border-slate-300 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                                 >
                                     <X className="w-3 h-3" />
                                 </button>
                             </div>
                         ))}
                         {previewImages.length < 3 && (
-                            <div className="relative aspect-square border-2 border-dashed border-foreground/20 rounded-xl flex flex-col items-center justify-center hover:bg-foreground/5 transition-colors cursor-pointer group">
-                                <UploadCloud className="w-6 h-6 text-foreground/40 group-hover:text-foreground/60 mb-2" />
-                                <p className="text-[10px] font-bold font-mono opacity-60">ADD IMAGE</p>
+                            <div className="relative aspect-square border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center hover:bg-slate-50 transition-colors cursor-pointer group">
+                                <UploadCloud className="w-6 h-6 text-slate-400 group-hover:text-slate-700 mb-2" />
+                                <p className="text-[10px] font-bold font-mono text-slate-500">ADD IMAGE</p>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -205,10 +205,10 @@ export default function AddProductPage() {
 
                 {/* Video Upload Area */}
                 <div className="flex flex-col gap-2">
-                    <label className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
+                    <label className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">
                         Product Video (Optional)
                     </label>
-                    <div className="relative border-2 border-dashed border-foreground/20 rounded-xl h-48 flex flex-col items-center justify-center overflow-hidden hover:bg-foreground/5 transition-colors group">
+                    <div className="relative border-2 border-dashed border-slate-300 rounded-xl h-48 flex flex-col items-center justify-center overflow-hidden hover:bg-slate-50 transition-colors group">
                         {previewVideo ? (
                             <>
                                 <video
@@ -224,14 +224,14 @@ export default function AddProductPage() {
                                         setPreviewVideo(null);
                                         setVideoFile(null);
                                     }}
-                                    className="absolute top-4 right-4 p-2 bg-background border border-foreground/10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                    className="absolute top-4 right-4 p-2 bg-white border border-slate-300 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
                             </>
                         ) : (
                             <div className="flex flex-col items-center gap-2 text-center p-6">
-                                <UploadCloud className="w-6 h-6 text-foreground/40" />
+                                <UploadCloud className="w-6 h-6 text-slate-400" />
                                 <div>
                                     <p className="text-xs font-semibold font-mono">Upload Video</p>
                                 </div>
@@ -250,8 +250,8 @@ export default function AddProductPage() {
                     {/* Basic Info */}
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="type" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">Product Type</label>
-                            <input id="type" name="type" type="text" list="product-types" placeholder="e.g. Electric Scooter" value={formData.type} onChange={handleChange} className="w-full bg-transparent border-b border-foreground/20 px-0 py-3 text-sm focus:border-foreground focus:outline-none transition-colors" />
+                            <label htmlFor="type" className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">Product Type</label>
+                            <input id="type" name="type" type="text" list="product-types" placeholder="e.g. Electric Scooter" value={formData.type} onChange={handleChange} className="w-full bg-white border-b border-slate-300 px-0 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition-colors" />
                             <datalist id="product-types">
                                 <option value="Electric Scooter" />
                                 <option value="Electric Bike" />
@@ -260,7 +260,7 @@ export default function AddProductPage() {
                             </datalist>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="name" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
+                            <label htmlFor="name" className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">
                                 Product Name
                             </label>
                             <input
@@ -271,12 +271,12 @@ export default function AddProductPage() {
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
-                                className="w-full bg-transparent border-b border-foreground/20 px-0 py-3 text-sm focus:border-foreground focus:outline-none transition-colors"
+                                className="w-full bg-white border-b border-slate-300 px-0 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition-colors"
                             />
                         </div>
 
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="price" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
+                            <label htmlFor="price" className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">
                                 Price (GH₵)
                             </label>
                             <input
@@ -287,12 +287,12 @@ export default function AddProductPage() {
                                 value={formData.price}
                                 onChange={handleChange}
                                 required
-                                className="w-full bg-transparent border-b border-foreground/20 px-0 py-3 text-sm focus:border-foreground focus:outline-none transition-colors"
+                                className="w-full bg-white border-b border-slate-300 px-0 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition-colors"
                             />
                         </div>
 
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="category" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
+                            <label htmlFor="category" className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">
                                 Category
                             </label>
                             <input
@@ -302,7 +302,7 @@ export default function AddProductPage() {
                                 placeholder="Type or choose a category"
                                 value={formData.category}
                                 onChange={handleChange}
-                                className="w-full bg-background border-b border-foreground/20 px-0 py-3 text-sm text-foreground focus:border-foreground focus:outline-none transition-colors"
+                                className="w-full bg-white border-b border-slate-300 px-0 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition-colors"
                             />
                             <datalist id="product-categories">
                                 <option value="scooters" />
@@ -324,13 +324,13 @@ export default function AddProductPage() {
                                 ["warranty", "Warranty", "6 months"],
                             ].map(([name, label, placeholder]) => (
                                 <div key={name} className="flex flex-col gap-2">
-                                    <label htmlFor={name} className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">{label}</label>
-                                    <input id={name} name={name} type="text" placeholder={placeholder} value={formData[name as keyof typeof formData]} onChange={handleChange} className="w-full bg-transparent border-b border-foreground/20 px-0 py-3 text-sm focus:border-foreground focus:outline-none transition-colors" />
+                                    <label htmlFor={name} className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">{label}</label>
+                                    <input id={name} name={name} type="text" placeholder={placeholder} value={formData[name as keyof typeof formData]} onChange={handleChange} className="w-full bg-white border-b border-slate-300 px-0 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none transition-colors" />
                                 </div>
                             ))}
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="condition" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">Condition</label>
-                                <select id="condition" name="condition" value={formData.condition} onChange={handleChange} className="w-full bg-background border-b border-foreground/20 px-0 py-3 text-sm text-foreground focus:border-foreground focus:outline-none">
+                                <label htmlFor="condition" className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">Condition</label>
+                                <select id="condition" name="condition" value={formData.condition} onChange={handleChange} className="w-full bg-white border-b border-slate-300 px-0 py-3 text-sm text-slate-900 focus:border-slate-900 focus:outline-none">
                                     <option value="new">New</option>
                                     <option value="refurbished">Refurbished</option>
                                 </select>
@@ -341,7 +341,7 @@ export default function AddProductPage() {
                     {/* Detailed Info */}
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2 h-full">
-                            <label htmlFor="description" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
+                            <label htmlFor="description" className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">
                                 Description
                             </label>
                             <textarea
@@ -350,23 +350,23 @@ export default function AddProductPage() {
                                 placeholder="Write a detailed description of the product..."
                                 value={formData.description}
                                 onChange={handleChange}
-                                className="w-full h-[300px] bg-transparent border border-foreground/20 px-4 py-3 text-sm rounded-md focus:border-foreground focus:outline-none transition-colors resize-none"
+                                className="w-full h-[300px] bg-white border border-slate-300 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 rounded-md focus:border-slate-900 focus:outline-none transition-colors resize-none"
                             />
                         </div>
                     </div>
                 </div>
 
-                <div className="pt-6 border-t border-foreground/10 flex justify-end gap-4">
+                <div className="pt-6 border-t border-slate-200 flex justify-end gap-4">
                     <Link
                         href="/admin/products"
-                        className="px-6 py-3 border border-foreground/20 rounded-md text-sm font-bold tracking-widest font-mono uppercase hover:bg-foreground/5 transition-colors"
+                        className="px-6 py-3 border border-slate-300 text-slate-700 rounded-md text-sm font-bold tracking-widest font-mono uppercase hover:bg-slate-100 transition-colors"
                     >
                         Cancel
                     </Link>
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-3 bg-foreground text-background rounded-md text-sm font-bold tracking-widest font-mono uppercase hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center gap-2"
+                        className="px-6 py-3 bg-slate-900 text-white rounded-md text-sm font-bold tracking-widest font-mono uppercase hover:bg-slate-700 transition-colors disabled:opacity-50 flex items-center gap-2"
                     >
                         {isLoading ? (
                             <>

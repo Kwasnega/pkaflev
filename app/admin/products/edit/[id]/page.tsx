@@ -197,46 +197,46 @@ export default function EditProductPage() {
     }
 
     return (
-        <div className="flex flex-col gap-8 max-w-3xl mx-auto">
+        <div className="flex flex-col gap-8 max-w-4xl mx-auto text-slate-900">
             <header className="flex items-center gap-4">
                 <Link
                     href="/admin/products"
-                    className="p-2 border border-white/10 rounded-full hover:bg-white/5 transition-colors"
+                    className="p-2 border border-slate-300 rounded-full hover:bg-slate-100 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5" />
                 </Link>
                 <div>
                     <h1 className="text-3xl font-mono font-bold tracking-tight">Edit Product</h1>
-                    <p className="text-sm font-medium opacity-60">
+                    <p className="text-sm font-medium text-slate-500">
                         Update existing product details and media.
                     </p>
                 </div>
             </header>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-8 bg-background border border-white/10 rounded-xl p-6 md:p-8 shadow-sm">
+            <form onSubmit={handleSubmit} className="admin-product-form flex flex-col gap-8 bg-white border border-slate-200 rounded-xl p-6 md:p-8 shadow-sm">
                 
                 {/* Image Upload Area */}
                 <div className="flex flex-col gap-4">
-                    <label className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
+                    <label className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">
                         Product Images (At least 1 required, max 3)
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {previewImages.map((img, idx) => (
-                            <div key={idx} className="relative aspect-square border border-white/10 rounded-xl overflow-hidden group bg-white/5">
+                            <div key={idx} className="relative aspect-square border border-slate-200 rounded-xl overflow-hidden group bg-slate-50">
                                 <img src={img} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
                                 <button
                                     type="button"
                                     onClick={() => removeImage(idx)}
-                                    className="absolute top-2 right-2 p-1.5 bg-background border border-white/10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                    className="absolute top-2 right-2 p-1.5 bg-white border border-slate-300 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                                 >
                                     <X className="w-3 h-3" />
                                 </button>
                             </div>
                         ))}
                         {previewImages.length < 3 && (
-                            <div className="relative aspect-square border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center hover:bg-white/5 transition-colors cursor-pointer group">
-                                <UploadCloud className="w-6 h-6 text-white/20 group-hover:text-white/40 mb-2" />
-                                <p className="text-[10px] font-bold font-mono opacity-60">ADD IMAGE</p>
+                            <div className="relative aspect-square border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center hover:bg-slate-50 transition-colors cursor-pointer group">
+                                <UploadCloud className="w-6 h-6 text-slate-400 group-hover:text-slate-700 mb-2" />
+                                <p className="text-[10px] font-bold font-mono text-slate-500">ADD IMAGE</p>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -250,10 +250,10 @@ export default function EditProductPage() {
 
                 {/* Video Upload Area */}
                 <div className="flex flex-col gap-2">
-                    <label className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
+                    <label className="text-xs font-bold font-mono tracking-widest uppercase text-slate-600">
                         Product Video (Optional)
                     </label>
-                    <div className="relative border-2 border-dashed border-white/10 rounded-xl h-48 flex flex-col items-center justify-center overflow-hidden hover:bg-white/5 transition-colors group">
+                    <div className="relative border-2 border-dashed border-slate-300 rounded-xl h-48 flex flex-col items-center justify-center overflow-hidden hover:bg-slate-50 transition-colors group">
                         {previewVideo ? (
                             <>
                                 <video
@@ -269,14 +269,14 @@ export default function EditProductPage() {
                                         setPreviewVideo(null);
                                         setVideoFile(null);
                                     }}
-                                    className="absolute top-4 right-4 p-2 bg-background border border-white/10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                    className="absolute top-4 right-4 p-2 bg-white border border-slate-300 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
                             </>
                         ) : (
                             <div className="flex flex-col items-center gap-2 text-center p-6">
-                                <UploadCloud className="w-6 h-6 text-white/20" />
+                                <UploadCloud className="w-6 h-6 text-slate-400" />
                                 <div>
                                     <p className="text-xs font-semibold font-mono">Upload Video</p>
                                 </div>

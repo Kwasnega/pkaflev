@@ -133,6 +133,36 @@ input, textarea, select {
   appearance: none;
 }
 
+/* Keep admin product fields readable on the white product form surface. */
+.admin-product-form {
+  color: #0f172a;
+}
+
+.admin-product-form label {
+  color: #475569;
+  opacity: 1;
+}
+
+.admin-product-form input,
+.admin-product-form textarea,
+.admin-product-form select {
+  color: #0f172a;
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+}
+
+.admin-product-form input::placeholder,
+.admin-product-form textarea::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+.admin-product-form input:focus,
+.admin-product-form textarea:focus,
+.admin-product-form select:focus {
+  border-color: #0f172a;
+}
+
 /* No scrollbar utility */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
