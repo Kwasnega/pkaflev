@@ -22,7 +22,8 @@ import {
     Phone,
     MapPin,
     CreditCard,
-    Loader2
+    Loader2,
+    Download
 } from "lucide-react";
 import { orders as mockOrders } from "@/lib/mock-data";
 import { formatGhs, resolveOrderItemLineTotal } from "@/lib/price";
@@ -35,6 +36,26 @@ const ORDER_STATUSES = [
     { id: 'delivered', label: 'Delivered', color: 'green', icon: CheckCircle2 },
     { id: 'cancelled', label: 'Cancelled', color: 'red', icon: ShieldAlert },
 ] as const;
+
+const escapeCsvValue = (value: unknown) => {
+    const text = String(value ?? "");
+    return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+};
+
+const downloadCsv = (filename: string, headers: string[], rows: unknown[][]) => {
+    const csv = [headers, ...rows]
+        .map((row) => row.map(escapeCsvValue).join(","))
+        .join("\r\n");
+    const blob = new Blob([`\uFEFF${csv}\r\n`], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+};
 
 // Status Badge Component
 function StatusBadge({ status }: { status: string }) {
@@ -318,6 +339,25 @@ export default function OrdersPage() {
     };
     
     const getStatusCount = (status: string) => orders.filter(o => o.status === status).length;
+
+    const handleExportCsv = () => {
+        const date = new Date().toISOString().slice(0, 10);
+        downloadCsv(
+            `pkaf-lev-orders-${date}.csv`,
+            ["Order ID", "Customer Name", "Date", "Product(s)", "Total Amount", "Payment Status", "Delivery Status"],
+            filteredOrders.map((order) => [
+                order.orderNumber || order.id,
+                order.shippingAddress?.name,
+                order.createdAt ? new Date(order.createdAt).toISOString().slice(0, 10) : "",
+                (order.items || [])
+                    .map((item: any) => `${item.name || item.product?.name || "Unknown product"} x${item.quantity || 1}`)
+                    .join("; "),
+                order.total ?? "",
+                order.paymentStatus,
+                order.status,
+            ])
+        );
+    };
     
     return (
         <div className="space-y-6">
@@ -392,6 +432,13 @@ export default function OrdersPage() {
                     >
                         <ArrowUpDown className="w-4 h-4" />
                         <span className="text-sm">{sortBy === 'date' ? 'Date' : 'Total'}</span>
+                    </button>
+                    <button
+                        onClick={handleExportCsv}
+                        className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white text-black hover:bg-white/90 transition-colors"
+                    >
+                        <Download className="w-4 h-4" />
+                        <span className="text-sm font-semibold">Export CSV</span>
                     </button>
                 </div>
             </div>

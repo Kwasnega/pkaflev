@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CheckCircle2, Clock3, ShieldAlert, Users, ChevronDown, ChevronUp, Plus, KeyRound, Check } from "lucide-react";
+import { CheckCircle2, Clock3, ShieldAlert, Users, ChevronDown, ChevronUp, Plus, KeyRound, Check, Download } from "lucide-react";
 import { affiliates as mockAffiliates, type Affiliate, type AffiliateStatus } from "@/lib/mock-data";
 import { createPartnerAccount, getPartnerAccounts } from "@/lib/partner-auth";
 
@@ -34,6 +34,26 @@ function AffiliateStatusBadge({ status }: { status: AffiliateStatus }) {
     </span>
   );
 }
+
+const escapeCsvValue = (value: unknown) => {
+  const text = String(value ?? "");
+  return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+};
+
+const downloadCsv = (filename: string, headers: string[], rows: unknown[][]) => {
+  const csv = [headers, ...rows]
+    .map((row) => row.map(escapeCsvValue).join(","))
+    .join("\r\n");
+  const blob = new Blob([`\uFEFF${csv}\r\n`], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+};
 
 export default function AffiliatesPage() {
   const [affiliates, setAffiliates] = useState<Affiliate[]>(mockAffiliates);
@@ -104,6 +124,24 @@ export default function AffiliatesPage() {
     );
   };
 
+  const handleExportCsv = () => {
+    const date = new Date().toISOString().slice(0, 10);
+    downloadCsv(
+      `pkaf-lev-affiliates-${date}.csv`,
+      ["Affiliate ID", "Partner Name", "Email", "Referral Code", "Joined Date", "Total Sales", "Total Commission", "Status"],
+      affiliates.map((affiliate) => [
+        affiliate.id,
+        affiliate.name,
+        affiliate.email,
+        affiliate.referralCode,
+        affiliate.dateJoined,
+        affiliate.totalSales,
+        affiliate.totalCommission,
+        affiliate.status,
+      ])
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -111,9 +149,19 @@ export default function AffiliatesPage() {
           <h1 className="text-2xl font-bold text-white">Partner & Affiliate Management</h1>
           <p className="mt-1 text-sm text-white/50">Track partner performance, approvals, and referral payouts</p>
         </div>
-        <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/70">
-          <Users className="h-4 w-4" />
-          {affiliates.length} total partners
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/70">
+            <Users className="h-4 w-4" />
+            {affiliates.length} total partners
+          </div>
+          <button
+            type="button"
+            onClick={handleExportCsv}
+            className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-slate-200"
+          >
+            <Download className="h-4 w-4" />
+            Export CSV
+          </button>
         </div>
       </div>
 
