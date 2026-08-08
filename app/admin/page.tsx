@@ -328,8 +328,8 @@ export default function AdminDashboard() {
     const totalRevenue = orders
         .filter(o => o.paymentStatus === 'paid')
         .reduce((sum, o) => sum + parseMoney(o.total), 0);
-    const pendingOrders = orders.filter(o => o.status === 'pending').length;
-    const completedOrders = orders.filter(o => o.status === 'delivered').length;
+    const pendingOrders = orders.filter(o => o.status === 'processing').length;
+    const completedOrders = orders.filter(o => o.status === 'order-delivered').length;
     const totalPaidPayouts = mockPartnerProfile.payoutHistory.reduce((sum, payout) => sum + payout.amount, 0);
     const pendingReferralPayouts = mockPartnerProfile.referralHistory
         .filter((sale) => sale.payoutStatus === "pending")

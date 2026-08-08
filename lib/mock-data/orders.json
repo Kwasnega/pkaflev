@@ -89,7 +89,7 @@
     "tax": 9,
     "total": 214,
     "paymentReference": "mock_ref_002",
-    "status": "shipped",
+    "status": "delivery-on-route",
     "paymentStatus": "paid",
     "createdAt": "2025-03-07T10:30:00.000Z",
     "updatedAt": "2025-03-07T10:30:00.000Z",

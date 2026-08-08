@@ -1,6 +1,7 @@
 // Database schema types for PKAF LEV
 
 import type { ProductCategory, ProductCondition } from "./mock-types";
+import type { OrderStatus } from "./order-status";
 
 export interface Product {
   id: string;
@@ -66,7 +67,7 @@ export interface Order {
   orderNumber: string;
   userId: string;
   date: string;
-  status: "processing" | "shipped" | "delivered" | "cancelled";
+  status: OrderStatus;
   items: OrderItem[];
   total: number;
   subtotal: number;

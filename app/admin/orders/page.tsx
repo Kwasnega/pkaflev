@@ -27,14 +27,15 @@ import {
 } from "lucide-react";
 import { orders as mockOrders } from "@/lib/mock-data";
 import { formatGhs, resolveOrderItemLineTotal } from "@/lib/price";
+import { ORDER_STATUS_LABELS, ORDER_STATUS_VALUES, type OrderStatus } from "@/lib/order-status";
 
 // Order status types
 const ORDER_STATUSES = [
-    { id: 'pending', label: 'Pending', color: 'amber', icon: Clock },
-    { id: 'processing', label: 'Processing', color: 'blue', icon: Package },
-    { id: 'shipped', label: 'Shipped', color: 'purple', icon: Truck },
-    { id: 'delivered', label: 'Delivered', color: 'green', icon: CheckCircle2 },
-    { id: 'cancelled', label: 'Cancelled', color: 'red', icon: ShieldAlert },
+    { id: 'processing', label: ORDER_STATUS_LABELS.processing, color: 'amber', icon: Package },
+    { id: 'delivery-in-progress', label: ORDER_STATUS_LABELS['delivery-in-progress'], color: 'blue', icon: Truck },
+    { id: 'delivery-on-route', label: ORDER_STATUS_LABELS['delivery-on-route'], color: 'purple', icon: Truck },
+    { id: 'order-delivered', label: ORDER_STATUS_LABELS['order-delivered'], color: 'green', icon: CheckCircle2 },
+    { id: 'cancelled', label: ORDER_STATUS_LABELS.cancelled, color: 'red', icon: ShieldAlert },
 ] as const;
 
 const escapeCsvValue = (value: unknown) => {
@@ -97,12 +98,16 @@ function OrderDetailModal({ order, onClose, onStatusChange }: {
         });
     };
     
+    const deliveryStages = ORDER_STATUS_VALUES.slice(0, 4);
+    const currentStageIndex = deliveryStages.indexOf(order.status as OrderStatus);
     const timeline = [
         { status: 'Order Placed', date: order.createdAt, completed: true },
         { status: 'Payment Confirmed', date: order.createdAt, completed: order.paymentStatus === 'paid' },
-        { status: 'Processing', date: order.status !== 'pending' ? order.updatedAt : null, completed: ['processing', 'shipped', 'delivered'].includes(order.status) },
-        { status: 'Shipped', date: order.status === 'shipped' || order.status === 'delivered' ? order.updatedAt : null, completed: ['shipped', 'delivered'].includes(order.status) },
-        { status: 'Delivered', date: order.status === 'delivered' ? order.updatedAt : null, completed: order.status === 'delivered' },
+        ...deliveryStages.map((status, index) => ({
+            status: ORDER_STATUS_LABELS[status],
+            date: currentStageIndex >= index ? order.updatedAt : null,
+            completed: currentStageIndex >= index,
+        })),
     ];
     
     return (
@@ -292,7 +297,7 @@ export default function OrdersPage() {
     const [orders, setOrders] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
-    const [statusFilter, setStatusFilter] = useState<string | null>(null);
+    const [statusFilter, setStatusFilter] = useState<OrderStatus | null>(null);
     const [sortBy, setSortBy] = useState<'date' | 'total'>('date');
     const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
     const [isFilterOpen, setIsFilterOpen] = useState(false);

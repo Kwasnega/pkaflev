@@ -18,6 +18,7 @@ import { useCart } from "@/components/cart-provider";
 import { useProducts } from "@/components/product-provider";
 import type { Order, Address } from "@/lib/db-schema";
 import { formatGhs, parseMoney, resolveOrderItemLineTotal, resolveOrderItemUnitPrice } from "@/lib/price";
+import { getOrderStatusLabel } from "@/lib/order-status";
 
 // Types
 interface UserProfile {
@@ -44,14 +45,14 @@ const ShimmerEffect = () => (
 const StatusBadge = ({ status }: { status: string }) => {
   const styles: Record<string, string> = {
     processing: "bg-neutral-100 text-neutral-900 border-neutral-300",
-    shipped: "bg-neutral-800 text-white border-neutral-900",
-    delivered: "bg-black text-white border-black",
+    "delivery-in-progress": "bg-sky-50 text-sky-700 border-sky-200",
+    "delivery-on-route": "bg-indigo-50 text-indigo-700 border-indigo-200",
+    "order-delivered": "bg-emerald-50 text-emerald-700 border-emerald-200",
     cancelled: "bg-neutral-200 text-neutral-600 border-neutral-300 line-through",
-    pending: "bg-white text-neutral-900 border-neutral-200",
   };
   return (
-    <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full border ${styles[status] || styles.pending}`}>
-      {status}
+    <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full border ${styles[status] || "bg-white text-neutral-900 border-neutral-200"}`}>
+      {getOrderStatusLabel(status)}
     </span>
   );
 };
@@ -486,7 +487,7 @@ export default function AccountPage() {
                 <div className="account-section grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-6">
                   {[
                     { label: "Total Orders", value: orders.length, icon: Package },
-                    { label: "Active Orders", value: orders.filter(o => o.status !== "delivered" && o.status !== "cancelled").length, icon: Clock },
+                    { label: "Active Orders", value: orders.filter(o => o.status !== "order-delivered" && o.status !== "cancelled").length, icon: Clock },
                     { label: "Addresses", value: addresses.length, icon: MapPin },
                   ].map((stat, idx) => (
                     <motion.div
@@ -569,12 +570,12 @@ export default function AccountPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <h2 className="text-xl md:text-2xl font-black tracking-tight">Order History</h2>
                 <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 sm:pb-0">
-                  {["all", "processing", "shipped", "delivered"].map((filter) => (
+                  {["all", "processing", "delivery-in-progress", "delivery-on-route", "order-delivered", "cancelled"].map((filter) => (
                     <button
                       key={filter}
                       className="px-3 md:px-4 py-2 text-[10px] md:text-xs font-bold tracking-wider uppercase rounded-full bg-neutral-100 hover:bg-neutral-200 transition-colors whitespace-nowrap"
                     >
-                      {filter}
+                      {filter === "all" ? "All" : getOrderStatusLabel(filter)}
                     </button>
                   ))}
                 </div>
@@ -656,7 +657,7 @@ export default function AccountPage() {
                         <FileText size={14} />
                         Details
                       </button>
-                      {order.status === "shipped" && (
+                      {(order.status === "delivery-in-progress" || order.status === "delivery-on-route") && (
                         <button 
                           onClick={() => setSelectedOrder(order)}
                           className="px-4 md:px-6 py-2.5 bg-amber-50 text-amber-700 rounded-xl text-[10px] md:text-xs font-bold tracking-widest uppercase hover:bg-amber-100 transition-colors flex items-center gap-2 border border-amber-100"
@@ -947,12 +948,13 @@ export default function AccountPage() {
                   <div className="space-y-6">
                     {[
                       { step: "Order Placed", date: selectedOrder.date, completed: true },
-                      { step: "Processing", date: "Verified & Prepared", completed: selectedOrder.status !== "processing" },
-                      { step: "Shipped", date: selectedOrder.trackingNumber || "Pending Dispatch", completed: ["shipped", "delivered"].includes(selectedOrder.status) },
-                      { step: "Delivered", date: "Arrival at destination", completed: selectedOrder.status === "delivered" },
+                      { step: "Processing", date: "Verified & Prepared", completed: ["processing", "delivery-in-progress", "delivery-on-route", "order-delivered"].includes(selectedOrder.status) },
+                      { step: "Delivery In Progress", date: "Preparing dispatch", completed: ["delivery-on-route", "order-delivered"].includes(selectedOrder.status) },
+                      { step: "Delivery On Route", date: selectedOrder.trackingNumber || "Pending Dispatch", completed: selectedOrder.status === "order-delivered" },
+                      { step: "Order Delivered", date: "Arrival at destination", completed: selectedOrder.status === "order-delivered" },
                     ].map((t, i) => (
                       <div key={i} className="flex gap-4 relative">
-                        {i < 3 && (
+                        {i < 4 && (
                           <div className={`absolute left-[7px] top-[18px] w-[2px] h-[24px] ${t.completed ? 'bg-amber-400' : 'bg-white/10'}`} />
                         )}
                         <div className={`w-4 h-4 rounded-full border-2 shrink-0 mt-0.5 flex items-center justify-center ${
