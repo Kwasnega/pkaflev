@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Banknote, Handshake, LayoutDashboard, Link2, LogOut, Menu, Settings, Wallet, X } from "lucide-react";
+import { Banknote, Handshake, LayoutDashboard, Link2, LogOut, Menu, Settings, Trophy, Wallet, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { isPartnerAuthenticated, setPartnerAuthenticated } from "@/lib/partner-auth";
 
@@ -20,6 +20,7 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
   const isReferralPage = pathname === "/partner/dashboard/referral-history";
   const isWithdrawPage = pathname === "/partner/dashboard/withdraw";
   const isPayoutPage = pathname === "/partner/dashboard/payout-history";
+  const isLeaderboardPage = pathname === "/partner/dashboard/leaderboard";
   const isSettingsPage = pathname === "/partner/dashboard/settings";
   const isDashboardRoute = pathname === "/partner/dashboard" || pathname.startsWith("/partner/dashboard/");
   const isPortalRoute = isLoginPage || isDashboardRoute;
@@ -133,6 +134,13 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
             Payout History
           </Link>
           <Link
+            href="/partner/dashboard/leaderboard"
+            className={`${navLinkBase} ${isLeaderboardPage ? navLinkActive : navLinkInactive}`}
+          >
+            <Trophy className="h-5 w-5 shrink-0" />
+            Leaderboard
+          </Link>
+          <Link
             href="/partner/dashboard/settings"
             className={`${navLinkBase} ${isSettingsPage ? navLinkActive : navLinkInactive}`}
           >
@@ -216,6 +224,14 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
                 >
                   <Wallet className="h-5 w-5" />
                   Payout History
+                </Link>
+                <Link
+                  href="/partner/dashboard/leaderboard"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`${navLinkBase} text-base ${isLeaderboardPage ? navLinkActive : navLinkInactive}`}
+                >
+                  <Trophy className="h-5 w-5" />
+                  Leaderboard
                 </Link>
                 <Link
                   href="/partner/dashboard/settings"

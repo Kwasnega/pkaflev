@@ -18,7 +18,8 @@ import {
     Store,
     ChevronRight,
     Sparkles,
-    Wallet
+    Wallet,
+    Trophy
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -39,6 +40,7 @@ function AdminLayoutContent({
         { name: "Products", href: "/admin/products", icon: Package },
         { name: "Orders", href: "/admin/orders", icon: ShoppingBag },
         { name: "Affiliates", href: "/admin/affiliates", icon: Users },
+        { name: "Leaderboard", href: "/admin/leaderboard", icon: Trophy },
         { name: "Payouts", href: "/admin/payouts", icon: Wallet },
         { name: "Content", href: "/admin/content", icon: Sparkles },
         { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
