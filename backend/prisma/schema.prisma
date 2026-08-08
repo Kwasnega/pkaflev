@@ -95,3 +95,11 @@ model AffiliateReferral {
   affiliate         Affiliate @relation(fields: [affiliate_id], references: [affiliate_id])
   order             Order     @relation(fields: [order_id], references: [order_id])
 }
+
+model OtpCode {
+  id        Int      @id @default(autoincrement())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

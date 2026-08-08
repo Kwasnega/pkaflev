@@ -184,6 +184,14 @@ exports.Prisma.AffiliateReferralScalarFieldEnum = {
   commission_amount: 'commission_amount'
 };
 
+exports.Prisma.OtpCodeScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  code: 'code',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -207,7 +215,8 @@ exports.Prisma.ModelName = {
   Product: 'Product',
   Order: 'Order',
   OrderItem: 'OrderItem',
-  AffiliateReferral: 'AffiliateReferral'
+  AffiliateReferral: 'AffiliateReferral',
+  OtpCode: 'OtpCode'
 };
 
 /**

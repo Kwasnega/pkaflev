@@ -9,6 +9,8 @@ import shopRoutes from './routes/shop.routes.js';
 import webhookRoutes from './routes/webhook.routes.js';
 import affiliateRoutes from './routes/affiliate.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import otpRoutes from './routes/otp.routes.js';
+
 
 
 const app: Application = express();
@@ -32,6 +34,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/shop', shopRoutes);
 app.use('/api/webhook', webhookRoutes);
 app.use('/api/admin', adminRoutes);
+// Mount alongside your other routes
+app.use('/api/otp', otpRoutes);
 
 // Add this alongside your other routes
 app.use('/api/affiliates', affiliateRoutes);
