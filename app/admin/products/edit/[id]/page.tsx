@@ -6,7 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft, UploadCloud, X, Loader2, Save } from "lucide-react";
 import Link from "next/link";
-import { compressImage } from "@/lib/image-utils";
+import { compressImage, fileToDataUrl } from "@/lib/image-utils";
 import { parseMoney } from "@/lib/price";
 
 export default function EditProductPage() {
@@ -21,14 +21,21 @@ export default function EditProductPage() {
     const [imageFiles, setImageFiles] = useState<(File | string)[]>([]); // Can be File or existing URL
     const [previewVideo, setPreviewVideo] = useState<string | null>(null);
     const [videoFile, setVideoFile] = useState<File | string | null>(null);
-    const [showCustomCategory, setShowCustomCategory] = useState(false);
-
     const [formData, setFormData] = useState({
+        type: "",
         name: "",
         price: "",
         description: "",
         category: "scooters",
-        customCategory: "",
+        motorPower: "",
+        batteryCapacity: "",
+        range: "",
+        topSpeed: "",
+        chargeTime: "",
+        weight: "",
+        maxLoad: "",
+        warranty: "",
+        condition: "new",
     });
 
     useEffect(() => {
@@ -36,11 +43,20 @@ export default function EditProductPage() {
             const product = products.find(p => p.id === productId);
             if (product) {
                 setFormData({
+                    type: product.type || "",
                     name: product.name || "",
                     price: parseMoney(product.price).toString(),
                     description: product.description || "",
                     category: (product.category as string) || "scooters",
-                    customCategory: "",
+                    motorPower: product.motorPower || "",
+                    batteryCapacity: product.batteryCapacity || "",
+                    range: product.range || "",
+                    topSpeed: product.topSpeed || "",
+                    chargeTime: product.chargeTime || "",
+                    weight: product.weight || "",
+                    maxLoad: product.maxLoad || "",
+                    warranty: product.warranty || "",
+                    condition: product.condition || "new",
                 });
 
                 // Handle images
@@ -115,7 +131,7 @@ export default function EditProductPage() {
         try {
             const uploadFile = async (file: File): Promise<string> => {
                 await new Promise((resolve) => setTimeout(resolve, 150));
-                return URL.createObjectURL(file);
+                return fileToDataUrl(file);
             };
 
             // 1. Process images (Upload new ones, keep old ones)
@@ -137,10 +153,9 @@ export default function EditProductPage() {
                 }
             }
 
-            const category = formData.category === "other" ? formData.customCategory : formData.category;
-
             // 4. Update local product state
             await updateProduct(productId, {
+                type: formData.type.trim(),
                 name: formData.name,
                 price: formData.price.startsWith("GH₵") ? formData.price : `GH₵${formData.price}`,
                 description: formData.description,
@@ -148,7 +163,16 @@ export default function EditProductPage() {
                 image: imageUrls[0],
                 images: imageUrls,
                 videoUrl: videoUrl,
-                category: category,
+                category: formData.category.trim(),
+                motorPower: formData.motorPower,
+                batteryCapacity: formData.batteryCapacity,
+                range: formData.range,
+                topSpeed: formData.topSpeed,
+                chargeTime: formData.chargeTime,
+                weight: formData.weight,
+                maxLoad: formData.maxLoad,
+                warranty: formData.warranty,
+                condition: formData.condition,
             });
 
             router.push("/admin/products");
@@ -270,6 +294,16 @@ export default function EditProductPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
+                            <label htmlFor="type" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">Product Type</label>
+                            <input id="type" name="type" type="text" list="product-types" placeholder="e.g. Electric Scooter" value={formData.type} onChange={handleChange} className="w-full bg-transparent border-b border-white/20 px-0 py-3 text-sm focus:border-white focus:outline-none transition-colors" />
+                            <datalist id="product-types">
+                                <option value="Electric Scooter" />
+                                <option value="Electric Bike" />
+                                <option value="Electric Motorbike" />
+                                <option value="Accessory" />
+                            </datalist>
+                        </div>
+                        <div className="flex flex-col gap-2">
                             <label htmlFor="name" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
                                 Product Name
                             </label>
@@ -303,22 +337,21 @@ export default function EditProductPage() {
                             <label htmlFor="category" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
                                 Category
                             </label>
-                            <select
+                            <input
                                 id="category"
                                 name="category"
+                                list="product-categories"
+                                placeholder="Type or choose a category"
                                 value={formData.category}
-                                onChange={(e) => {
-                                    handleChange(e);
-                                    setShowCustomCategory(e.target.value === "other");
-                                }}
+                                onChange={handleChange}
                                 className="w-full bg-background border-b border-white/20 px-0 py-3 text-sm focus:border-white focus:outline-none transition-colors"
-                            >
-                                <option value="scooters">Scooters</option>
-                                <option value="bikes">Bikes</option>
-                                <option value="motorbikes">Motorbikes</option>
-                                <option value="accessories">Accessories</option>
-                                <option value="other">Other / Custom...</option>
-                            </select>
+                            />
+                            <datalist id="product-categories">
+                                <option value="scooters" />
+                                <option value="bikes" />
+                                <option value="motorbikes" />
+                                <option value="accessories" />
+                            </datalist>
                         </div>
                     </div>
 
@@ -334,6 +367,30 @@ export default function EditProductPage() {
                                 onChange={handleChange}
                                 className="w-full h-full min-h-[200px] bg-transparent border border-white/20 px-4 py-3 text-sm rounded-md focus:border-white focus:outline-none transition-colors resize-none"
                             />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            {[
+                                ["motorPower", "Motor Power", "500W"],
+                                ["batteryCapacity", "Battery", "48V 15Ah"],
+                                ["range", "Range", "60km per charge"],
+                                ["topSpeed", "Top Speed", "25km/h"],
+                                ["chargeTime", "Charge Time", "5-6 hours"],
+                                ["weight", "Weight", "32kg"],
+                                ["maxLoad", "Max Load", "180kg"],
+                                ["warranty", "Warranty", "6 months"],
+                            ].map(([name, label, placeholder]) => (
+                                <div key={name} className="flex flex-col gap-2">
+                                    <label htmlFor={name} className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">{label}</label>
+                                    <input id={name} name={name} type="text" placeholder={placeholder} value={formData[name as keyof typeof formData]} onChange={handleChange} className="w-full bg-transparent border-b border-white/20 px-0 py-3 text-sm focus:border-white focus:outline-none transition-colors" />
+                                </div>
+                            ))}
+                            <div className="flex flex-col gap-2">
+                                <label htmlFor="condition" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">Condition</label>
+                                <select id="condition" name="condition" value={formData.condition} onChange={handleChange} className="w-full bg-background border-b border-white/20 px-0 py-3 text-sm focus:border-white focus:outline-none">
+                                    <option value="new">New</option>
+                                    <option value="refurbished">Refurbished</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,8 @@ interface ProductContextType {
     isLoading: boolean;
 }
 
+const PRODUCTS_STORAGE_KEY = "pkaf_products";
+
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 function sortProducts(products: Product[]) {
@@ -28,7 +30,12 @@ export function ProductProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         const timer = window.setTimeout(() => {
-            setProducts(sortProducts(mockProducts));
+            try {
+                const saved = window.localStorage.getItem(PRODUCTS_STORAGE_KEY);
+                setProducts(sortProducts(saved ? JSON.parse(saved) as Product[] : mockProducts));
+            } catch {
+                setProducts(sortProducts(mockProducts));
+            }
             setIsLoading(false);
         }, 120);
 
@@ -42,20 +49,28 @@ export function ProductProvider({ children }: { children: ReactNode }) {
             createdAt: new Date().toISOString(),
         } as Product;
 
-        setProducts((prev) => sortProducts([...prev, newProduct]));
+        setProducts((prev) => {
+            const next = sortProducts([...prev, newProduct]);
+            window.localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(next));
+            return next;
+        });
         return newProduct.id;
     };
 
     const updateProduct = async (id: string, updatedFields: Partial<Product>) => {
-        setProducts((prev) =>
-            sortProducts(
-                prev.map((item) => (item.id === id ? { ...item, ...updatedFields } : item))
-            )
-        );
+        setProducts((prev) => {
+            const next = sortProducts(prev.map((item) => (item.id === id ? { ...item, ...updatedFields } : item)));
+            window.localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(next));
+            return next;
+        });
     };
 
     const deleteProduct = async (id: string) => {
-        setProducts((prev) => prev.filter((item) => item.id !== id));
+        setProducts((prev) => {
+            const next = prev.filter((item) => item.id !== id);
+            window.localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(next));
+            return next;
+        });
     };
 
     return (

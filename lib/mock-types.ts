@@ -6,6 +6,7 @@ export interface Product {
   name: string;
   brand?: string;
   collection?: string;
+  type?: string;
   category?: ProductCategory | string;
   image: string;
   images?: string[];

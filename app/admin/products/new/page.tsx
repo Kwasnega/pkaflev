@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, UploadCloud, X, Loader2 } from "lucide-react";
 
 import Link from "next/link";
-import { compressImage } from "@/lib/image-utils";
+import { compressImage, fileToDataUrl } from "@/lib/image-utils";
 
 
 export default function AddProductPage() {
@@ -19,14 +19,21 @@ export default function AddProductPage() {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [previewVideo, setPreviewVideo] = useState<string | null>(null);
     const [videoFile, setVideoFile] = useState<File | null>(null);
-    const [showCustomCategory, setShowCustomCategory] = useState(false);
-
     const [formData, setFormData] = useState({
+        type: "",
         name: "",
         price: "",
         description: "",
         category: "scooters",
-        customCategory: "",
+        motorPower: "",
+        batteryCapacity: "",
+        range: "",
+        topSpeed: "",
+        chargeTime: "",
+        weight: "",
+        maxLoad: "",
+        warranty: "",
+        condition: "new",
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -88,7 +95,7 @@ export default function AddProductPage() {
 
             const uploadFile = async (file: File): Promise<string> => {
                 await new Promise((resolve) => setTimeout(resolve, 150));
-                return URL.createObjectURL(file);
+                return fileToDataUrl(file);
             };
 
             const uploadPromises: Promise<string>[] = compressedFiles.map(file => 
@@ -110,16 +117,24 @@ export default function AddProductPage() {
 
 
             // 4. Save locally via ProductProvider
-            const category = formData.category === "other" ? formData.customCategory : formData.category;
-
             await addProduct({
+                type: formData.type.trim(),
                 name: formData.name,
                 price: formData.price.startsWith("GH₵") ? formData.price : `GH₵${formData.price}`,
                 description: formData.description,
                 image: imageUrls[0],
                 images: imageUrls,
                 videoUrl: videoUrl,
-                category: category,
+                category: formData.category.trim(),
+                motorPower: formData.motorPower,
+                batteryCapacity: formData.batteryCapacity,
+                range: formData.range,
+                topSpeed: formData.topSpeed,
+                chargeTime: formData.chargeTime,
+                weight: formData.weight,
+                maxLoad: formData.maxLoad,
+                warranty: formData.warranty,
+                condition: formData.condition,
             });
 
             // Redirect back to products table
@@ -235,6 +250,16 @@ export default function AddProductPage() {
                     {/* Basic Info */}
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
+                            <label htmlFor="type" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">Product Type</label>
+                            <input id="type" name="type" type="text" list="product-types" placeholder="e.g. Electric Scooter" value={formData.type} onChange={handleChange} className="w-full bg-transparent border-b border-foreground/20 px-0 py-3 text-sm focus:border-foreground focus:outline-none transition-colors" />
+                            <datalist id="product-types">
+                                <option value="Electric Scooter" />
+                                <option value="Electric Bike" />
+                                <option value="Electric Motorbike" />
+                                <option value="Accessory" />
+                            </datalist>
+                        </div>
+                        <div className="flex flex-col gap-2">
                             <label htmlFor="name" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
                                 Product Name
                             </label>
@@ -242,7 +267,7 @@ export default function AddProductPage() {
                                 id="name"
                                 name="name"
                                 type="text"
-                                placeholder="e.g. BL-01 Oversized Blazer"
+                                placeholder="e.g. Volt X2 Electric Scooter"
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
@@ -270,38 +295,47 @@ export default function AddProductPage() {
                             <label htmlFor="category" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">
                                 Category
                             </label>
-                            <select
+                            <input
                                 id="category"
                                 name="category"
+                                list="product-categories"
+                                placeholder="Type or choose a category"
                                 value={formData.category}
-                                onChange={(e) => {
-                                    handleChange(e);
-                                    setShowCustomCategory(e.target.value === "other");
-                                }}
+                                onChange={handleChange}
                                 className="w-full bg-background border-b border-foreground/20 px-0 py-3 text-sm text-foreground focus:border-foreground focus:outline-none transition-colors"
-                            >
-                                <option value="scooters" className="bg-background text-foreground">Scooters</option>
-                                <option value="bikes" className="bg-background text-foreground">Bikes</option>
-                                <option value="motorbikes" className="bg-background text-foreground">Motorbikes</option>
-                                <option value="accessories" className="bg-background text-foreground">Accessories</option>
-                                <option value="other" className="bg-background text-foreground">Other / Custom...</option>
-                            </select>
-                            
-                            {showCustomCategory && (
-                                <motion.input
-                                    initial={{ opacity: 0, y: -10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    type="text"
-                                    name="customCategory"
-                                    placeholder="Enter custom category..."
-                                    value={formData.customCategory}
-                                    onChange={handleChange}
-                                    className="w-full mt-2 bg-transparent border-b border-foreground/40 px-0 py-2 text-sm focus:border-foreground focus:outline-none transition-colors"
-                                />
-                            )}
+                            />
+                            <datalist id="product-categories">
+                                <option value="scooters" />
+                                <option value="bikes" />
+                                <option value="motorbikes" />
+                                <option value="accessories" />
+                            </datalist>
                         </div>
 
-                        {/* LEV products do not use sizes/material fields */}
+                        <div className="grid grid-cols-2 gap-4">
+                            {[
+                                ["motorPower", "Motor Power", "500W"],
+                                ["batteryCapacity", "Battery", "48V 15Ah"],
+                                ["range", "Range", "60km per charge"],
+                                ["topSpeed", "Top Speed", "25km/h"],
+                                ["chargeTime", "Charge Time", "5-6 hours"],
+                                ["weight", "Weight", "32kg"],
+                                ["maxLoad", "Max Load", "180kg"],
+                                ["warranty", "Warranty", "6 months"],
+                            ].map(([name, label, placeholder]) => (
+                                <div key={name} className="flex flex-col gap-2">
+                                    <label htmlFor={name} className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">{label}</label>
+                                    <input id={name} name={name} type="text" placeholder={placeholder} value={formData[name as keyof typeof formData]} onChange={handleChange} className="w-full bg-transparent border-b border-foreground/20 px-0 py-3 text-sm focus:border-foreground focus:outline-none transition-colors" />
+                                </div>
+                            ))}
+                            <div className="flex flex-col gap-2">
+                                <label htmlFor="condition" className="text-xs font-bold font-mono tracking-widest uppercase opacity-70">Condition</label>
+                                <select id="condition" name="condition" value={formData.condition} onChange={handleChange} className="w-full bg-background border-b border-foreground/20 px-0 py-3 text-sm text-foreground focus:border-foreground focus:outline-none">
+                                    <option value="new">New</option>
+                                    <option value="refurbished">Refurbished</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Detailed Info */}
