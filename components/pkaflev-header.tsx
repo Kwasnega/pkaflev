@@ -257,8 +257,8 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
                 { name: "Accessories", href: "/shop?category=ACCESSORIES" },
             ],
             featured: [
-                { title: "ELECTRIC SCOOTERS", image: "/SMimages/pic4.webp" },
-                { title: "PKAF LEV RIDE", image: "/SMimages/pic5.webp" }
+                { title: "ELECTRIC SCOOTERS", image: "/images/products/scooter-1.jpg" },
+                { title: "ELECTRIC BIKES", image: "/images/products/ebike-1.jpg" }
             ]
         }
     };
