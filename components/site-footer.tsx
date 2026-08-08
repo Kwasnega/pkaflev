@@ -26,7 +26,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="grid w-full grid-cols-2 gap-x-4 gap-y-4 sm:gap-6 lg:grid-cols-2 lg:gap-10">
+          <div className="grid w-full grid-cols-2 gap-x-4 gap-y-6 sm:gap-6 lg:flex-1 lg:grid-cols-3 lg:gap-10">
             <div>
               <h2 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 sm:text-xs sm:tracking-[0.3em]">Company</h2>
               <div className="mt-2 flex flex-col gap-1.5 text-xs text-slate-300 sm:mt-4 sm:gap-2 sm:text-sm">
@@ -46,7 +46,7 @@ export function SiteFooter() {
               </div>
             </div>
 
-            <div className="hidden md:block md:col-span-1">
+            <div className="col-span-2 lg:col-span-1">
               <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Newsletter</h2>
               <p className="mt-4 text-sm text-slate-400">Subscribe for updates on new products, offers and events.</p>
               <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
@@ -68,8 +68,9 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 pt-6 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()} LEV. All rights reserved.
+        <div className="flex flex-col gap-2 border-t border-slate-800 pt-6 text-center text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <span>© {new Date().getFullYear()} LEV. All rights reserved.</span>
+          <span className="text-xs tracking-[0.18em] text-slate-600">Made By Kxy</span>
         </div>
       </div>
     </footer>
