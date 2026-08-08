@@ -29,8 +29,8 @@ export const PkaflevHero = ({
     leftText = "PKAF LEV",
     leftButtonText = "SHOP NOW",
     leftButtonHref = "/shop",
-    rightButtonText = "BECOME A PARTNER",
-    rightButtonHref = "/partner",
+    rightButtonText,
+    rightButtonHref,
     className,
     disableTextAnimation = false,
 }: PkaflevHeroProps) => {
@@ -183,14 +183,16 @@ export const PkaflevHero = ({
                         <span className="relative z-10">{leftButtonText}</span>
                     </Link>
                 </div>
-                <div className="hero-content-reveal w-full md:w-auto">
-                    <Link
-                        href={rightButtonHref}
-                        className="group flex h-12 sm:h-14 w-full items-center justify-center border border-white/80 px-6 text-[12px] sm:text-[14px] font-bold tracking-[0.2em] text-white transition-all duration-500 hover:bg-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] active:bg-white active:text-black md:w-[260px]"
-                    >
-                        <span className="relative z-10">{rightButtonText}</span>
-                    </Link>
-                </div>
+                {rightButtonText && rightButtonHref ? (
+                    <div className="hero-content-reveal w-full md:w-auto">
+                        <Link
+                            href={rightButtonHref}
+                            className="group flex h-12 sm:h-14 w-full items-center justify-center border border-white/80 px-6 text-[12px] sm:text-[14px] font-bold tracking-[0.2em] text-white transition-all duration-500 hover:bg-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] active:bg-white active:text-black md:w-[260px]"
+                        >
+                            <span className="relative z-10">{rightButtonText}</span>
+                        </Link>
+                    </div>
+                ) : null}
             </div>
         </div>
     );

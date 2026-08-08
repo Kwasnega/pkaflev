@@ -14,7 +14,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="snap-start">
-        <PkaflevHero videoSrc={heroImages[0]?.videoUrl || ""} imageSrc={heroImages[0]?.url || "/SMimages/pic4.webp"} />
+        <PkaflevHero
+          videoSrc={heroImages[0]?.videoUrl || ""}
+          imageSrc={heroImages[0]?.url || "/SMimages/pic4.webp"}
+          rightButtonText={undefined}
+          rightButtonHref={undefined}
+        />
       </div>
       <div className="snap-none">
         <EssentialsSection />
