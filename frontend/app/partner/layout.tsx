@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 import { Banknote, Handshake, LayoutDashboard, Link2, LogOut, Menu, Settings, Trophy, Wallet, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { isPartnerAuthenticated, setPartnerAuthenticated } from "@/lib/partner-auth";
+import { mockPartnerProfile } from "@/lib/mock-data";
+import type { KycStatus } from "@/lib/mock-types";
+import { AlertCircle, ShieldAlert } from "lucide-react";
+import { AccountActionsMenu } from "@/components/account-actions-menu";
 
 function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -14,6 +18,7 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
   const [authenticated, setAuthenticated] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [kycStatus, setKycStatus] = useState<KycStatus>("unverified");
 
   const isLoginPage = pathname === "/partner/login" || pathname.startsWith("/partner/login?");
   const isDashboardPage = pathname === "/partner/dashboard";
@@ -34,6 +39,9 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const savedAvatar = localStorage.getItem("pkaf-partner-avatar");
     setProfileImage(savedAvatar ?? null);
+    
+    const savedStatus = localStorage.getItem("pkaf-partner-kyc") as KycStatus | null;
+    setKycStatus(savedStatus ?? mockPartnerProfile.kycStatus);
   }, [pathname]);
 
   useEffect(() => {
@@ -95,13 +103,21 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen w-full bg-[#0a0a0a] font-sans text-white">
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-white/10 bg-[#0a0a0a] lg:flex">
-        <div className="flex h-16 shrink-0 items-center border-b border-white/10 px-6">
-          <Link href="/partner/dashboard" className="flex items-center gap-3">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-4">
+          <Link href="/partner/dashboard" className="flex items-center gap-3 px-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white">
               <Handshake className="h-5 w-5 text-black" />
             </div>
             <span className="text-lg font-bold tracking-tight">Partner Portal</span>
           </Link>
+          <AccountActionsMenu
+            kycStatus={kycStatus}
+            verifyHref="/partner/verify"
+            onLogout={handleLogout}
+            deactivateCopy="Deactivating will pause your referral link and any pending withdrawals until reactivated."
+            deleteCopy="This action cannot be undone. You will forfeit all pending commission and referral history. Are you sure you want to permanently delete your account?"
+            theme="dark"
+          />
         </div>
 
         <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-6">
@@ -149,14 +165,8 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
 
-        <div className="space-y-2 border-t border-white/10 p-4">
-          <button
-            onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white"
-          >
-            <LogOut className="h-5 w-5" />
-            Logout
-          </button>
+        <div className="mt-auto border-t border-white/10 p-4">
+          {/* Replaced standalone logout with AccountActionsMenu in the header */}
         </div>
       </aside>
 
@@ -177,19 +187,29 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
               className="fixed inset-y-0 left-0 z-50 w-72 border-r border-white/10 bg-[#0a0a0a] lg:hidden"
             >
-              <div className="flex h-16 items-center justify-between border-b border-white/10 px-6">
-                <Link href="/partner/dashboard" className="flex items-center gap-3">
+              <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
+                <Link href="/partner/dashboard" className="flex items-center gap-3 px-2">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white">
                     <Handshake className="h-5 w-5 text-black" />
                   </div>
                   <span className="text-lg font-bold">Partner Portal</span>
                 </Link>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 text-white/60 hover:text-white"
-                >
-                  <X className="h-6 w-6" />
-                </button>
+                <div className="flex items-center gap-1">
+                  <AccountActionsMenu
+                    kycStatus={kycStatus}
+                    verifyHref="/partner/verify"
+                    onLogout={handleLogout}
+                    deactivateCopy="Deactivating will pause your referral link and any pending withdrawals until reactivated."
+                    deleteCopy="This action cannot be undone. You will forfeit all pending commission and referral history. Are you sure you want to permanently delete your account?"
+                    theme="dark"
+                  />
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-2 text-white/60 hover:text-white rounded-full hover:bg-white/10 transition-colors"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
 
               <div className="p-4 space-y-2">
@@ -242,16 +262,6 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
                   Settings
                 </Link>
               </div>
-
-              <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 p-4">
-                <button
-                  onClick={handleLogout}
-                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/60 transition-colors hover:bg-white/5 hover:text-white"
-                >
-                  <LogOut className="h-5 w-5" />
-                  Logout
-                </button>
-              </div>
             </motion.aside>
           </>
         )}
@@ -283,6 +293,32 @@ function PartnerLayoutContent({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </header>
+
+        {/* KYC Banner for Partners (Persistent) */}
+        {(kycStatus === "unverified" || kycStatus === "rejected") && (
+          <div className={`border-b px-4 py-3 sm:px-6 lg:px-8 ${
+            kycStatus === "rejected" ? "border-red-500/30 bg-red-500/10 text-red-400" : "border-amber-500/30 bg-amber-500/10 text-amber-400"
+          }`}>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm">
+              <div className="flex items-center gap-2">
+                {kycStatus === "rejected" ? <ShieldAlert size={16} /> : <AlertCircle size={16} />}
+                <span className="font-semibold">
+                  {kycStatus === "rejected"
+                    ? "Your verification was unsuccessful. You must resubmit to enable withdrawals."
+                    : "Complete KYC verification to enable withdrawals and unlock full dashboard access."}
+                </span>
+              </div>
+              <Link 
+                href="/partner/verify"
+                className={`shrink-0 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg transition-colors text-black ${
+                  kycStatus === "rejected" ? "bg-red-400 hover:bg-red-300" : "bg-amber-400 hover:bg-amber-300"
+                }`}
+              >
+                Verify Now
+              </Link>
+            </div>
+          </div>
+        )}
 
         <main className="flex-1 p-4 lg:p-8">{children}</main>
       </div>

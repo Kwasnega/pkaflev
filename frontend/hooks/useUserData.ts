@@ -24,6 +24,7 @@ function mapUserProfile(profile: (typeof mockUsers)[number]): User {
     avatar: profile.avatar ?? undefined,
     memberSince: profile.memberSince,
     updatedAt: profile.updatedAt ?? profile.createdAt ?? new Date().toISOString(),
+    kycStatus: profile.kycStatus,
   };
 }
 

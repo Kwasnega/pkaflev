@@ -1,5 +1,6 @@
 export type ProductCategory = "scooters" | "bikes" | "motorbikes" | "accessories";
 export type ProductCondition = "new" | "refurbished";
+export type KycStatus = "unverified" | "pending" | "verified" | "rejected";
 
 export interface Product {
   id: string;
@@ -38,6 +39,7 @@ export interface UserProfile {
   avatar?: string | null;
   memberSince: string;
   role?: "user" | "admin";
+  kycStatus?: KycStatus;
   createdAt?: string;
   updatedAt?: string;
 }

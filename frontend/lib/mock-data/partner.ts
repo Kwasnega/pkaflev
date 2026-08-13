@@ -1,3 +1,5 @@
+import type { KycStatus } from "@/lib/mock-types";
+
 export type PayoutStatus = "pending" | "paid";
 
 export interface ReferralSale {
@@ -39,6 +41,7 @@ export interface PartnerProfile {
   phone: string;
   referralCode: string;
   referralLink: string;
+  kycStatus: KycStatus;
   stats: PartnerStats;
   referralHistory: ReferralSale[];
   payoutHistory: PayoutRecord[];
@@ -51,6 +54,7 @@ export const mockPartnerProfile: PartnerProfile = {
   phone: "+233 20 123 4567",
   referralCode: "PKAF-JDOE23",
   referralLink: "https://pkaflev.com/?ref=PKAF-JDOE23",
+  kycStatus: "pending",
   stats: {
     totalClicks: 2847,
     totalSignups: 142,

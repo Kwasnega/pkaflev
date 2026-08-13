@@ -238,6 +238,7 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
             name: "SHOP",
             href: "/shop",
             subLinks: [
+                { name: "ALL PRODUCTS", href: "/shop", isPrimary: true },
                 { name: "Electric Scooters", href: "/shop?category=ELECTRIC%20SCOOTERS" },
                 { name: "Electric Bikes", href: "/shop?category=ELECTRIC%20BIKES" },
                 { name: "Motorbikes", href: "/shop?category=MOTORBIKES" },
@@ -251,6 +252,7 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
     const megaMenuContent: Record<string, { links: { name: string, href: string }[], featured: { title: string, image: string }[] }> = {
         "SHOP": {
             links: [
+                { name: "ALL PRODUCTS", href: "/shop" },
                 { name: "Electric Scooters", href: "/shop?category=ELECTRIC%20SCOOTERS" },
                 { name: "Electric Bikes", href: "/shop?category=ELECTRIC%20BIKES" },
                 { name: "Motorbikes", href: "/shop?category=MOTORBIKES" },
@@ -341,15 +343,17 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
                     </button>
                 </div>
 
-                {/* Logo (Centered) - Always Black on Shop Page */}
+                {/* Logo (Centered) */}
                 <div className="flex flex-1 justify-center min-w-0 px-4">
-                    <Link href="/" className="group relative" onClick={() => setIsMenuOpen(false)}>
-                        <img
-                            src="/levlogo.png"
-                            alt="LEV"
-                            className="h-[7.5rem] lg:h-[8.5rem] w-auto object-contain max-w-[300px] lg:max-w-[340px] transition-all duration-300 drop-shadow-lg"
-                        />
-                    </Link>
+                    {!isShopPage && (
+                        <Link href="/" className="group relative" onClick={() => setIsMenuOpen(false)}>
+                            <img
+                                src="/levlogo.png"
+                                alt="LEV"
+                                className="h-[7.5rem] lg:h-[8.5rem] w-auto object-contain max-w-[300px] lg:max-w-[340px] transition-all duration-300 drop-shadow-lg"
+                            />
+                        </Link>
+                    )}
                 </div>
 
                 {/* Desktop: Right Navigation — Wishlist, Account, and Cart Preview */}
@@ -747,7 +751,13 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
                                                                                 key={subLink.name}
                                                                                 href={subLink.href}
                                                                                 onClick={() => setIsMenuOpen(false)}
-                                                                                className="flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm font-medium uppercase tracking-[0.12em] text-white/70 hover:bg-white/5 hover:text-white"
+                                                                                className={cn(
+                                                                                    "flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm uppercase tracking-[0.12em] hover:bg-white/5",
+                                                                                    // @ts-ignore - dynamic property checking
+                                                                                    subLink.isPrimary
+                                                                                        ? "font-bold text-white shadow-[0_0_12px_rgba(255,255,255,0.05)]"
+                                                                                        : "font-medium text-white/70 hover:text-white"
+                                                                                )}
                                                                             >
                                                                                 <span>{subLink.name}</span>
                                                                                 <ChevronRight size={14} className="text-white/30" />

@@ -19,7 +19,8 @@ import {
     ChevronRight,
     Sparkles,
     Wallet,
-    Trophy
+    Trophy,
+    ShieldAlert
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -44,6 +45,7 @@ function AdminLayoutContent({
         { name: "Payouts", href: "/admin/payouts", icon: Wallet },
         { name: "Content", href: "/admin/content", icon: Sparkles },
         { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+        { name: "KYC Review", href: "/admin/kyc-review", icon: ShieldAlert },
         { name: "Settings", href: "/admin/settings", icon: Settings },
     ];
 
