@@ -72,6 +72,12 @@
       "namedRegex": "^/account(?:/)?$"
     },
     {
+      "page": "/account/verify",
+      "regex": "^/account/verify(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/account/verify(?:/)?$"
+    },
+    {
       "page": "/admin",
       "regex": "^/admin(?:/)?$",
       "routeKeys": {},
@@ -106,6 +112,12 @@
       "regex": "^/admin/gallery(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/admin/gallery(?:/)?$"
+    },
+    {
+      "page": "/admin/kyc-review",
+      "regex": "^/admin/kyc\\-review(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/kyc\\-review(?:/)?$"
     },
     {
       "page": "/admin/leaderboard",
@@ -154,6 +166,12 @@
       "regex": "^/cart(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/cart(?:/)?$"
+    },
+    {
+      "page": "/checkout",
+      "regex": "^/checkout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/checkout(?:/)?$"
     },
     {
       "page": "/contact",
@@ -232,6 +250,12 @@
       "regex": "^/partner/login(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/partner/login(?:/)?$"
+    },
+    {
+      "page": "/partner/verify",
+      "regex": "^/partner/verify(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/partner/verify(?:/)?$"
     },
     {
       "page": "/payment",

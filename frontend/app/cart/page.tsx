@@ -1,10 +1,15 @@
 ﻿"use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart-provider";
 
 export default function CartPage() {
+  const router = useRouter();
   const { items, totalItems, subtotal, updateQuantity, removeItem, clearCart } = useCart();
+  const handleCheckout = () => {
+    router.push("/checkout");
+  };
 
   if (items.length === 0) {
     return (
@@ -94,6 +99,7 @@ export default function CartPage() {
             </div>
             <button
               type="button"
+              onClick={handleCheckout}
               className="mt-8 w-full rounded-full bg-black px-6 py-4 text-sm font-semibold uppercase text-white transition hover:bg-white hover:text-black"
             >
               Proceed to Checkout

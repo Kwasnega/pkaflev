@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/kyc-review/layout,_N_T_/admin/kyc-review/page,_N_T_/admin/kyc-review"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/kyc-review/__PAGE__",
+    "/admin/kyc-review",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}
