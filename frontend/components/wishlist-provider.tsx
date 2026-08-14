@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Product, useProducts } from "@/components/product-provider";
+import { useAuth } from "@/contexts/AuthContext";
+import { addToWishlist as addServerWishlist, getWishlist, removeFromWishlist as removeServerWishlist } from "@/lib/api-client";
 
 interface WishlistContextValue {
   wishlistedIds: string[];
@@ -19,26 +21,62 @@ const STORAGE_KEY = "wishlist-items";
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const { products } = useProducts();
+  const { user, loading } = useAuth();
   const [wishlistedIds, setWishlistedIds] = useState<string[]>([]);
 
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-          setWishlistedIds(parsed.filter((id) => typeof id === "string"));
-        }
-      }
-    } catch (error) {
-      // ignore invalid storage values
+  const requireAuthenticatedWishlist = () => {
+    if (!user) {
+      window.dispatchEvent(new CustomEvent("pkaflev:open-auth", { detail: { defaultTab: "signin" } }));
+      return false;
     }
-  }, []);
+
+    return true;
+  };
+
+  useEffect(() => {
+    const loadWishlist = async () => {
+      try {
+        if (!user?.id && !user?.uid) {
+          setWishlistedIds([]);
+          window.localStorage.removeItem(STORAGE_KEY);
+          return;
+        }
+
+        const userId = user?.id ?? user?.uid;
+        const response = await getWishlist(userId);
+        if (response.data && Array.isArray(response.data)) {
+          const ids = response.data
+            .map((entry) => {
+              const record = entry as Record<string, unknown>;
+              const nestedProduct = record.product as Record<string, unknown> | undefined;
+              return record.product_id ?? nestedProduct?.product_id ?? null;
+            })
+            .filter((value): value is string | number => value !== null && value !== undefined)
+            .map((value) => String(value));
+
+          setWishlistedIds(ids);
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+          return;
+        }
+
+        const raw = window.localStorage.getItem(STORAGE_KEY);
+        const fallbackIds = raw ? JSON.parse(raw) : [];
+        const parsedFallback = Array.isArray(fallbackIds) ? fallbackIds.filter((id) => typeof id === "string") : [];
+        setWishlistedIds(parsedFallback);
+      } catch {
+        setWishlistedIds([]);
+      }
+    };
+
+    if (!loading) {
+      void loadWishlist();
+    }
+  }, [loading, user?.id, user?.uid]);
 
   useEffect(() => {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(wishlistedIds));
-    } catch (error) {
+    } catch {
       // ignore storage errors
     }
   }, [wishlistedIds]);
@@ -49,18 +87,61 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   );
 
   const isWishlisted = (productId: string) => wishlistedIds.includes(productId);
-  const addToWishlist = (productId: string) => {
+  const addToWishlist = async (productId: string) => {
+    if (!requireAuthenticatedWishlist()) {
+      return;
+    }
+
+    if (wishlistedIds.includes(productId)) {
+      return;
+    }
+
     setWishlistedIds((prev) => (prev.includes(productId) ? prev : [productId, ...prev]));
+
+    try {
+      const userId = user?.id ?? user?.uid;
+      await addServerWishlist(userId, productId);
+    } catch {
+      // fall back to local-only storage when the backend is unavailable
+    }
   };
-  const removeFromWishlist = (productId: string) => {
+  const removeFromWishlist = async (productId: string) => {
+    if (!user) {
+      window.dispatchEvent(new CustomEvent("pkaflev:open-auth", { detail: { defaultTab: "signin" } }));
+      return;
+    }
+
     setWishlistedIds((prev) => prev.filter((id) => id !== productId));
+
+    try {
+      const userId = user?.id ?? user?.uid;
+      await removeServerWishlist(userId, productId);
+    } catch {
+      // ignore backend errors
+    }
   };
   const toggleWishlistItem = (productId: string) => {
-    setWishlistedIds((prev) =>
-      prev.includes(productId) ? prev.filter((id) => id !== productId) : [productId, ...prev]
-    );
+    if (!user) {
+      window.dispatchEvent(new CustomEvent("pkaflev:open-auth", { detail: { defaultTab: "signin" } }));
+      return;
+    }
+
+    void (isWishlisted(productId) ? removeFromWishlist(productId) : addToWishlist(productId));
   };
-  const clearWishlist = () => setWishlistedIds([]);
+  const clearWishlist = async () => {
+    if (!requireAuthenticatedWishlist()) {
+      return;
+    }
+
+    setWishlistedIds([]);
+
+    try {
+      const userId = user?.id ?? user?.uid;
+      await Promise.all(wishlistedIds.map((id) => removeServerWishlist(userId, id)));
+    } catch {
+      // ignore backend errors
+    }
+  };
 
   return (
     <WishlistContext.Provider

@@ -1,18 +1,19 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
-import { users as mockUsers } from "@/lib/mock-data";
+import { loginUser, registerUser } from "@/lib/api-client";
 
 interface AuthUser {
   uid: string;
   id?: string;
   email: string;
-  displayName: string | null;
+  displayName: string;
   photoURL: string | null;
   phoneNumber: string | null;
   firstName: string;
   lastName: string;
   role?: "user" | "admin";
+  token?: string | null;
   getIdToken: () => Promise<string>;
 }
 
@@ -28,23 +29,34 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-const LOCAL_STORAGE_KEY = "pkaflev_mock_auth_user_id";
+const LOCAL_STORAGE_KEY = "pkaflev_auth_user";
 const ADMIN_AUTH_FLAG = "pkaflev_mock_admin_authenticated";
 
-function toAuthUser(profile: (typeof mockUsers)[number]): AuthUser {
-  const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(" ").trim();
+function createAuthUser(
+  email: string,
+  displayName: string,
+  role: "user" | "admin" = "user",
+  token: string | null = null,
+  userId?: string | number,
+): AuthUser {
+  const name = displayName?.trim() || email.split("@")[0];
+  const nameParts = name.split(/\s+/);
+  const firstName = nameParts[0] ?? "";
+  const lastName = nameParts.slice(1).join(" ") ?? "";
+  const uid = userId ? String(userId) : `auth-${Date.now()}`;
 
   return {
-    uid: profile.id,
-    id: profile.id,
-    email: profile.email,
-    displayName: fullName || profile.email,
-    photoURL: profile.avatar ?? null,
-    phoneNumber: profile.phone ?? null,
-    firstName: profile.firstName,
-    lastName: profile.lastName,
-    role: profile.role,
-    getIdToken: async () => `mock-token-${profile.id}`,
+    uid,
+    id: uid,
+    email,
+    displayName: name,
+    photoURL: null,
+    phoneNumber: null,
+    firstName,
+    lastName,
+    role,
+    token,
+    getIdToken: async () => token ?? `mock-token-${uid}`,
   };
 }
 
@@ -52,7 +64,7 @@ function persistAuthUser(user: AuthUser | null) {
   if (typeof window === "undefined") return;
 
   if (user) {
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, user.uid);
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user));
     if (user.role === "admin") {
       window.localStorage.setItem(ADMIN_AUTH_FLAG, "true");
     } else {
@@ -70,12 +82,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const storedUserId = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (storedUserId) {
-        const profile = mockUsers.find((entry) => entry.id === storedUserId);
-
-        if (profile) {
-          setUser(toAuthUser(profile));
+      const storedUser = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (storedUser) {
+        const parsed = JSON.parse(storedUser) as AuthUser;
+        if (parsed?.email) {
+          setUser({ ...parsed, getIdToken: async () => parsed.token ?? `mock-token-${parsed.uid}` });
         }
       }
     } catch {
@@ -89,25 +100,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/admin/login", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
+      const response = await loginUser(email.trim(), password);
 
-      const payload = await response.json();
-
-      if (!response.ok) {
-        throw new Error(payload?.message || "Invalid login credentials.");
+      if (response.error) {
+        throw new Error(response.error);
       }
 
-      const profile = mockUsers.find((entry) => entry.email.toLowerCase() === email.toLowerCase());
-      if (!profile) {
-        throw new Error("No account found for that email.");
-      }
+      const authUser = createAuthUser(
+        email.trim(),
+        email.split("@")[0],
+        (response.data?.role as "user" | "admin") ?? "user",
+        response.data?.token ?? null,
+        response.data?.userId,
+      );
 
-      const authUser = toAuthUser(profile);
       setUser(authUser);
       persistAuthUser(authUser);
     } finally {
@@ -116,32 +122,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signup = async (email: string, password: string, displayName?: string) => {
-    const nameParts = displayName?.trim().split(/\s+/) ?? [];
-    const firstName = nameParts[0] ?? "";
-    const lastName = nameParts.slice(1).join(" ") ?? "";
+    setLoading(true);
 
-    const newUser: AuthUser = {
-      uid: `mock-${Date.now()}`,
-      id: `mock-${Date.now()}`,
-      email,
-      displayName: displayName?.trim() || email.split("@")[0],
-      photoURL: null,
-      phoneNumber: null,
-      firstName,
-      lastName,
-      role: "user",
-      getIdToken: async () => `mock-token-${Date.now()}`,
-    };
+    try {
+      const response = await registerUser({
+        email: email.trim(),
+        password,
+        name: displayName,
+        role: "user",
+      });
 
-    setUser(newUser);
-    persistAuthUser(newUser);
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      const authUser = createAuthUser(
+        email.trim(),
+        displayName ?? email.split("@")[0],
+        "user",
+        null,
+        response.data?.userId,
+      );
+
+      setUser(authUser);
+      persistAuthUser(authUser);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetPassword = async (email: string) => {
-    const profile = mockUsers.find((entry) => entry.email.toLowerCase() === email.toLowerCase());
-
-    if (!profile) {
-      throw new Error("No account found for that email.");
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    // Keep existing mock semantics for now.
+    if (!email.trim()) {
+      throw new Error("Please provide an email address.");
     }
   };
 
@@ -160,17 +174,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    try {
-      await fetch("/api/admin/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-    } catch {
-      // Ignore logout network issues; always clear local state.
-    } finally {
-      setUser(null);
-      persistAuthUser(null);
-    }
+    setUser(null);
+    persistAuthUser(null);
   };
 
   return (

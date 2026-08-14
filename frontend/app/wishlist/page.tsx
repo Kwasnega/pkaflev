@@ -3,17 +3,29 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useWishlist } from "@/components/wishlist-provider";
 import { useProducts } from "@/components/product-provider";
 import { useCart } from "@/components/cart-provider";
 import { ProductCard } from "@/components/shop-section";
 import { ShoppingBag, Heart, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function WishlistPage() {
+  const router = useRouter();
+  const { user, loading } = useAuth();
   const { wishlistProducts: rawWishlistProducts, totalWishlistItems, removeFromWishlist, clearWishlist, isWishlisted, toggleWishlistItem } = useWishlist();
   const { addItem } = useCart();
   const { products = [] } = useProducts();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      window.dispatchEvent(new CustomEvent("pkaflev:open-auth", { detail: { defaultTab: "signin" } }));
+      router.replace("/");
+    }
+  }, [loading, user, router]);
 
   // Defensive: ensure products is an array and wishlist entries are valid
   const wishlistProducts = Array.isArray(rawWishlistProducts) ? rawWishlistProducts.filter(Boolean) : [];

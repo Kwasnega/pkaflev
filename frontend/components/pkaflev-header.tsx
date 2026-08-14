@@ -168,6 +168,13 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
     const lastScrollYRef = useRef(0);
     const pathname = usePathname();
 
+    // Close the auth modal automatically when the user navigates to a new page.
+    useEffect(() => {
+        if (isAccountOpen) {
+            setIsAccountOpen(false);
+        }
+    }, [pathname, isAccountOpen]);
+
     // Handle account icon click - redirect if logged in, show modal if not
     const handleAccountClick = () => {
         if (isAuthenticated) {
@@ -221,6 +228,18 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []); // ← empty array: register once, never re-register
+
+    useEffect(() => {
+        const handleOpenAuth = (event: Event) => {
+            const customEvent = event as CustomEvent<{ defaultTab?: "signin" | "signup" }>;
+            const defaultTab = customEvent.detail?.defaultTab === "signup" ? "signup" : "signin";
+            setIsAccountOpen(true);
+            setAccountTab(defaultTab === "signup" ? "signup" : "login");
+        };
+
+        window.addEventListener("pkaflev:open-auth", handleOpenAuth as EventListener);
+        return () => window.removeEventListener("pkaflev:open-auth", handleOpenAuth as EventListener);
+    }, []);
 
     // Prevent scrolling when menu is open or mega menu is active
     useEffect(() => {

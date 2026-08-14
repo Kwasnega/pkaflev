@@ -16,20 +16,21 @@ model User {
   
   affiliates    Affiliate?
   orders        Order[]
+  wishlists     Wishlist[]
 }
 
 model Affiliate {
-  affiliate_id        Int      @id @default(autoincrement())
-  user_id             Int      @unique
+  affiliate_id        Int                 @id @default(autoincrement())
+  user_id             Int                 @unique
   name                String
-  commissions_earned  Decimal  @default(0.00)
-  available_balance   Decimal  @default(0.00)
-  number_of_referrals Int      @default(0)
-  account_status      String   @default("active") // 'active', 'suspended'
+  commissions_earned  Decimal             @default(0.00)
+  available_balance   Decimal             @default(0.00)
+  number_of_referrals Int                 @default(0)
+  account_status      String              @default("active") // 'active', 'suspended'
   referral_link       String
-  referral_code       String   @unique
+  referral_code       String              @unique
   
-  user                User     @relation(fields: [user_id], references: [user_id])
+  user                User                @relation(fields: [user_id], references: [user_id])
   referrals           AffiliateReferral[]
   orders              Order[]
   payouts             Payout[]
@@ -47,29 +48,51 @@ model Payout {
 }
 
 model Product {
-  product_id     Int      @id @default(autoincrement())
+  product_id     Int           @id @default(autoincrement())
   product_name   String
   price          Decimal
-  cost_price     Decimal  @default(0.00)
+  cost_price     Decimal       @default(0.00)
   description    String?
-  image          String?
-  stock_quantity Int      @default(0)
+  image          String?       // Kept for backward compatibility if needed (e.g. main thumbnail)
+  stock_quantity Int           @default(0)
   
   order_items    OrderItem[]
+  images         ProductImage[] // Supports multiple images per product
+  wishlists      Wishlist[]
+}
+
+model ProductImage {
+  image_id   Int     @id @default(autoincrement())
+  product_id Int
+  image_url  String
+
+  product    Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+}
+
+model Wishlist {
+  wishlist_id Int      @id @default(autoincrement())
+  user_id     Int
+  product_id  Int
+  created_at  DateTime @default(now())
+
+  user        User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  product     Product  @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+
+  @@unique([user_id, product_id]) // Prevents duplicate wishlist entries for the same product
 }
 
 model Order {
-  order_id      Int      @id @default(autoincrement())
-  client_id     Int
-  affiliate_id  Int?
-  amount_paid   Decimal
-  order_date    DateTime @default(now())
-  status        String   // 'pending', 'failed', 'paid', 'fulfilled', 'cancelled'
+  order_id     Int      @id @default(autoincrement())
+  client_id    Int
+  affiliate_id Int?
+  amount_paid  Decimal
+  order_date   DateTime @default(now())
+  status       String   // 'pending', 'failed', 'paid', 'fulfilled', 'cancelled'
   
-  client        User     @relation(fields: [client_id], references: [user_id])
-  affiliate     Affiliate? @relation(fields: [affiliate_id], references: [affiliate_id])
-  order_items   OrderItem[]
-  referrals     AffiliateReferral[]
+  client       User     @relation(fields: [client_id], references: [user_id])
+  affiliate    Affiliate? @relation(fields: [affiliate_id], references: [affiliate_id])
+  order_items  OrderItem[]
+  referrals    AffiliateReferral[]
 }
 
 model OrderItem {

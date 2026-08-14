@@ -10,6 +10,8 @@ import webhookRoutes from './routes/webhook.routes.js';
 import affiliateRoutes from './routes/affiliate.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import otpRoutes from './routes/otp.routes.js';
+import partnerRoutes from './routes/partner.routes.js';
+import productRoutes from './routes/product.routes.js';
 
 
 
@@ -36,6 +38,8 @@ app.use('/api/webhook', webhookRoutes);
 app.use('/api/admin', adminRoutes);
 // Mount alongside your other routes
 app.use('/api/otp', otpRoutes);
+app.use('/api/partner', partnerRoutes);
+app.use('/api/products', productRoutes);
 
 // Add this alongside your other routes
 app.use('/api/affiliates', affiliateRoutes);
