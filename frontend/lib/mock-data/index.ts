@@ -13,6 +13,7 @@ export const orders: Order[] = ordersData as Order[];
 export { productsData, usersData, addressesData, ordersData };
 export { affiliates, mockAffiliates } from "./affiliates";
 export { mockPartnerProfile } from "./partner";
+export type { KycStatus } from "@/lib/mock-types";
 export type {
   Affiliate,
   AffiliateStatus,

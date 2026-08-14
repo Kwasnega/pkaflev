@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Banknote, CreditCard, Phone } from "lucide-react";
+import { ArrowLeft, Banknote, CreditCard, Phone, ShieldAlert } from "lucide-react";
 import { mockPartnerProfile } from "@/lib/mock-data";
+import type { KycStatus } from "@/lib/mock-types";
 import { formatGhs } from "@/lib/price";
 
 const AVAILABLE_BALANCE = 1240.0;
@@ -34,6 +35,12 @@ export default function WithdrawPage() {
   const [success, setSuccess] = useState("");
   const [balance, setBalance] = useState(AVAILABLE_BALANCE);
   const [pendingPayouts, setPendingPayouts] = useState(partner.payoutHistory.filter((payout) => payout.method === "Mobile Money" || payout.method === "Bank Transfer"));
+  const [kycStatus, setKycStatus] = useState<KycStatus>("unverified");
+
+  useEffect(() => {
+    const savedStatus = localStorage.getItem("pkaf-partner-kyc") as KycStatus | null;
+    setKycStatus(savedStatus ?? partner.kycStatus);
+  }, [partner.kycStatus]);
 
   const canSubmit = amount > 0 && amount <= balance && (method === "Bank Transfer" ? accountNumber.trim().length > 0 && bankName.trim().length > 0 : mobileNumber.trim().length > 0);
 
@@ -96,6 +103,23 @@ export default function WithdrawPage() {
         </Link>
       </div>
 
+      {kycStatus !== "verified" ? (
+        <div className="flex flex-col items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.02] p-12 text-center">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber-500/10 text-amber-500">
+            <ShieldAlert className="h-8 w-8" />
+          </div>
+          <h2 className="mb-2 text-xl font-bold">Identity Verification Required</h2>
+          <p className="mb-8 max-w-md text-sm text-white/50">
+            You must verify your identity to enable withdrawals and secure your payouts. This process typically takes 1-2 business days.
+          </p>
+          <Link
+            href="/partner/verify"
+            className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-semibold text-black transition hover:bg-white/90"
+          >
+            Verify Identity
+          </Link>
+        </div>
+      ) : (
       <div className="grid gap-6 lg:grid-cols-[1.3fr_0.9fr]">
         <div className="space-y-6">
           <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.02] p-6">
@@ -263,6 +287,7 @@ export default function WithdrawPage() {
           </div>
         </aside>
       </div>
+      )}
     </div>
   );
 }

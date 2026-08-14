@@ -35,6 +35,19 @@ function AffiliateStatusBadge({ status }: { status: AffiliateStatus }) {
   );
 }
 
+function KycStatusBadge({ status }: { status: import("@/lib/mock-types").KycStatus }) {
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] ${
+      status === "verified" ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" :
+      status === "pending" ? "bg-amber-500/10 text-amber-300 border-amber-500/30" :
+      status === "rejected" ? "bg-red-500/10 text-red-300 border-red-500/30" :
+      "bg-white/5 text-white/50 border-white/20"
+    }`}>
+      {status}
+    </span>
+  );
+}
+
 const escapeCsvValue = (value: unknown) => {
   const text = String(value ?? "");
   return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
@@ -89,6 +102,14 @@ export default function AffiliatesPage() {
     setAffiliates((current) =>
       current.map((affiliate) =>
         affiliate.id === id ? { ...affiliate, status } : affiliate,
+      ),
+    );
+  };
+
+  const updateAffiliateKycStatus = (id: string, kycStatus: import("@/lib/mock-types").KycStatus) => {
+    setAffiliates((current) =>
+      current.map((affiliate) =>
+        affiliate.id === id ? { ...affiliate, kycStatus } : affiliate,
       ),
     );
   };
@@ -304,6 +325,7 @@ export default function AffiliatesPage() {
                 <th className="px-6 py-4 text-right">Sales</th>
                 <th className="px-6 py-4 text-right">Commission</th>
                 <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4">KYC</th>
                 <th className="px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
@@ -345,6 +367,9 @@ export default function AffiliatesPage() {
                       <td className="px-6 py-4 text-right text-sm font-medium text-emerald-300">{formatCurrency(affiliate.totalCommission)}</td>
                       <td className="px-6 py-4">
                         <AffiliateStatusBadge status={affiliate.status} />
+                      </td>
+                      <td className="px-6 py-4">
+                        <KycStatusBadge status={affiliate.kycStatus} />
                       </td>
                       <td className="px-6 py-4 text-right">
                         <button
@@ -406,6 +431,67 @@ export default function AffiliatesPage() {
                               </table>
                             </div>
                           </div>
+
+                          {affiliate.kycStatus === "pending" && (
+                            <div className="mt-4 rounded-xl border border-white/10 bg-[#111214] p-4">
+                              <div className="mb-4">
+                                <p className="text-xs uppercase tracking-[0.2em] text-white/50">KYC Review</p>
+                                <p className="mt-1 text-sm text-white/70">Verify identity documents for {affiliate.name}</p>
+                              </div>
+                              <div className="flex flex-col gap-6 md:flex-row">
+                                <div className="flex-1 space-y-4">
+                                  <div className="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                      <p className="text-white/40 mb-1 text-xs">Full Name</p>
+                                      <p className="text-white">{affiliate.name}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-white/40 mb-1 text-xs">Date of Birth</p>
+                                      <p className="text-white">1990-05-15</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-white/40 mb-1 text-xs">ID Type</p>
+                                      <p className="text-white">Ghana Card</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-white/40 mb-1 text-xs">ID Number</p>
+                                      <p className="text-white">GHA-712345678-9</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex-1 rounded-lg border border-white/10 bg-white/5 p-4 flex items-center justify-center min-h-[120px]">
+                                  <div className="text-center">
+                                    <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
+                                      <CheckCircle2 className="h-5 w-5 text-white/50" />
+                                    </div>
+                                    <p className="text-xs text-white/50">Document scan provided</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mt-6 flex items-center justify-end gap-3 border-t border-white/10 pt-4">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    updateAffiliateKycStatus(affiliate.id, "rejected");
+                                  }}
+                                  className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2 text-sm font-semibold text-red-400 transition hover:bg-red-500/20"
+                                >
+                                  Reject KYC
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    updateAffiliateKycStatus(affiliate.id, "verified");
+                                  }}
+                                  className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-black transition hover:bg-emerald-400"
+                                >
+                                  Approve KYC
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     )}

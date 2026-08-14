@@ -13,6 +13,8 @@ import {
   UserRound,
 } from "lucide-react";
 import { mockPartnerProfile } from "@/lib/mock-data";
+import { KycForm } from "@/components/kyc-form";
+import type { KycStatus } from "@/lib/mock-types";
 
 const PAYMENT_METHODS = ["Mobile Money", "Bank Transfer"] as const;
 const MOBILE_PROVIDERS = ["MTN", "Telecel", "AirtelTigo"] as const;
@@ -23,6 +25,10 @@ type MobileProvider = (typeof MOBILE_PROVIDERS)[number];
 
 export default function PartnerSettingsPage() {
   const savedMethod = mockPartnerProfile.defaultPayoutMethod;
+
+  const [kycStatus, setKycStatus] = useState<KycStatus>(
+    mockPartnerProfile.kycStatus
+  );
 
   const [profile, setProfile] = useState({
     fullName: mockPartnerProfile.name,
@@ -284,6 +290,16 @@ export default function PartnerSettingsPage() {
             Update Password
           </button>
         </form>
+
+        {/* ── KYC Verification ─────────────────────────────── */}
+        <div className="w-full rounded-3xl border border-white/10 bg-[#0b0b0b]/80 p-6">
+          <KycForm
+            theme="dark"
+            defaultName={profile.fullName}
+            currentStatus={kycStatus}
+            onStatusChange={(s) => setKycStatus(s)}
+          />
+        </div>
       </div>
 
     </div>

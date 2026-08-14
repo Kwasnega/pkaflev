@@ -1,3 +1,5 @@
+import type { KycStatus } from "@/lib/mock-types";
+
 export type AffiliateStatus = "pending approval" | "active" | "suspended";
 
 export interface AffiliateReferralHistoryItem {
@@ -16,6 +18,7 @@ export interface Affiliate {
   totalSales: number;
   totalCommission: number;
   status: AffiliateStatus;
+  kycStatus: KycStatus;
   referralHistory: AffiliateReferralHistoryItem[];
 }
 
@@ -29,6 +32,7 @@ export const affiliates: Affiliate[] = [
     totalSales: 18450,
     totalCommission: 1845,
     status: "active",
+    kycStatus: "verified",
     referralHistory: [
       { month: "Jan", sales: 4200, commission: 420, orders: 9 },
       { month: "Feb", sales: 6800, commission: 680, orders: 14 },
@@ -44,6 +48,7 @@ export const affiliates: Affiliate[] = [
     totalSales: 9900,
     totalCommission: 990,
     status: "pending approval",
+    kycStatus: "pending",
     referralHistory: [
       { month: "Jan", sales: 2100, commission: 210, orders: 5 },
       { month: "Feb", sales: 3600, commission: 360, orders: 6 },
@@ -59,6 +64,7 @@ export const affiliates: Affiliate[] = [
     totalSales: 26120,
     totalCommission: 2612,
     status: "active",
+    kycStatus: "verified",
     referralHistory: [
       { month: "Jan", sales: 6100, commission: 610, orders: 11 },
       { month: "Feb", sales: 8900, commission: 890, orders: 15 },
@@ -74,6 +80,7 @@ export const affiliates: Affiliate[] = [
     totalSales: 8200,
     totalCommission: 820,
     status: "suspended",
+    kycStatus: "rejected",
     referralHistory: [
       { month: "Jan", sales: 1800, commission: 180, orders: 4 },
       { month: "Feb", sales: 2400, commission: 240, orders: 5 },
@@ -89,6 +96,7 @@ export const affiliates: Affiliate[] = [
     totalSales: 14300,
     totalCommission: 1430,
     status: "active",
+    kycStatus: "unverified",
     referralHistory: [
       { month: "Jan", sales: 3000, commission: 300, orders: 7 },
       { month: "Feb", sales: 5200, commission: 520, orders: 10 },
@@ -104,6 +112,7 @@ export const affiliates: Affiliate[] = [
     totalSales: 21400,
     totalCommission: 2140,
     status: "pending approval",
+    kycStatus: "unverified",
     referralHistory: [
       { month: "Jan", sales: 4700, commission: 470, orders: 8 },
       { month: "Feb", sales: 6600, commission: 660, orders: 12 },

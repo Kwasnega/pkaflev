@@ -39,6 +39,7 @@ export interface User {
   avatar?: string;
   memberSince: string;
   updatedAt: string;
+  kycStatus?: import("./mock-types").KycStatus;
 }
 
 export interface Address {

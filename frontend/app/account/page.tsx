@@ -10,7 +10,8 @@ import {
   User, Mail, Phone, MapPin, Package, Clock, ChevronRight, 
   Edit3, Plus, Trash2, Star, CheckCircle, X, Download, 
   Truck, CreditCard, Home, LogOut, Crown, Sparkles,
-  MoreVertical, RefreshCw, FileText, Shield, Loader2, ShoppingBag
+  MoreVertical, RefreshCw, FileText, Shield, Loader2, ShoppingBag,
+  UserX, AlertTriangle
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserData, useUpdateUser, useAddresses } from "@/hooks/useUserData";
@@ -19,6 +20,9 @@ import { useProducts } from "@/components/product-provider";
 import type { Order, Address } from "@/lib/db-schema";
 import { formatGhs, parseMoney, resolveOrderItemLineTotal, resolveOrderItemUnitPrice } from "@/lib/price";
 import { getOrderStatusLabel } from "@/lib/order-status";
+import { KycForm } from "@/components/kyc-form";
+import type { KycStatus } from "@/lib/mock-types";
+import { AccountActionsMenu } from "@/components/account-actions-menu";
 
 // Types
 interface UserProfile {
@@ -74,7 +78,9 @@ export default function AccountPage() {
   const { updateUser, loading: updatingUser } = useUpdateUser();
   const { createAddress, updateAddress, deleteAddress, loading: addressLoading } = useAddresses();
   
-  const [activeTab, setActiveTab] = useState<"overview" | "orders" | "addresses">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "orders" | "addresses" | "identity">("overview");
+  const [kycStatus, setKycStatus] = useState<KycStatus>("unverified");
+  const [showKycBanner, setShowKycBanner] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
@@ -98,6 +104,9 @@ export default function AccountPage() {
         email: user.email,
         phone: user.phone || "",
       });
+      if (user.kycStatus) {
+        setKycStatus(user.kycStatus);
+      }
     }
   }, [user]);
 
@@ -392,16 +401,52 @@ export default function AccountPage() {
                 Member since {displayUser.memberSince}
               </p>
             </div>
-            <button 
-              onClick={handleLogout}
-              className="flex items-center gap-2 text-sm font-bold text-neutral-400 hover:text-black transition-colors p-2 -mr-2 uppercase tracking-widest"
-            >
-              <LogOut size={18} />
-              <span className="hidden sm:inline">Sign Out</span>
-            </button>
+            
+            <AccountActionsMenu
+              kycStatus={kycStatus}
+              verifyHref="/account/verify"
+              onLogout={handleLogout}
+              deactivateCopy="Are you sure you want to deactivate your account? Your data will be preserved, and you can reactivate anytime by logging back in."
+              deleteCopy="This action cannot be undone. Are you sure you want to permanently delete your account and all associated data?"
+              theme="light"
+            />
           </motion.div>
         </div>
       </section>
+
+      {/* KYC Banner */}
+      {showKycBanner && (kycStatus === "unverified" || kycStatus === "rejected") && (
+        <div className={`px-4 py-3 sm:px-6 md:px-12 ${
+          kycStatus === "rejected" ? "bg-red-50 border-b border-red-100 text-red-800" : "bg-blue-50 border-b border-blue-100 text-blue-800"
+        }`}>
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm">
+            <div className="flex items-center gap-2">
+              <Shield size={16} className={kycStatus === "rejected" ? "text-red-500" : "text-blue-500"} />
+              <span className="font-semibold">
+                {kycStatus === "rejected"
+                  ? "Your verification was unsuccessful — please resubmit."
+                  : "Verify your account to unlock faster checkout."}
+              </span>
+            </div>
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <Link 
+                href="/account/verify"
+                className={`text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-lg transition-colors ${
+                  kycStatus === "rejected" ? "bg-red-600 hover:bg-red-700 text-white" : "bg-blue-600 hover:bg-blue-700 text-white"
+                }`}
+              >
+                Verify Now
+              </Link>
+              <button 
+                onClick={() => setShowKycBanner(false)}
+                className="p-1 hover:bg-black/5 rounded-full transition-colors ml-auto sm:ml-0"
+              >
+                <X size={16} className="opacity-60" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Navigation Tabs */}
       <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-100">
@@ -411,6 +456,7 @@ export default function AccountPage() {
               { id: "overview", label: "Overview", icon: User },
               { id: "orders", label: "Orders", icon: Package },
               { id: "addresses", label: "Addresses", icon: MapPin },
+              { id: "identity", label: "Identity", icon: Shield },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -457,8 +503,23 @@ export default function AccountPage() {
                         {getInitials(displayUser.firstName, displayUser.lastName)}
                       </span>
                     </div>
-                    <h2 className="text-2xl font-bold mb-1">{displayUser.firstName} {displayUser.lastName}</h2>
-                    <p className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em] mb-6">{displayUser.email}</p>
+                    <h2 className="text-2xl font-bold mb-1 flex items-center gap-2">
+                      {displayUser.firstName} {displayUser.lastName}
+                    </h2>
+                    <div className="flex items-center gap-2 mb-6">
+                      <p className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">{displayUser.email}</p>
+                      <span className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full border ${
+                        kycStatus === "verified" ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" :
+                        kycStatus === "pending" ? "bg-amber-500/20 text-amber-400 border-amber-500/30" :
+                        kycStatus === "rejected" ? "bg-red-500/20 text-red-400 border-red-500/30" :
+                        "bg-white/10 text-white/60 border-white/20"
+                      }`}>
+                        {kycStatus === "verified" ? "Verified" :
+                         kycStatus === "pending" ? "Pending Review" :
+                         kycStatus === "rejected" ? "Unverified" :
+                         "Unverified"}
+                      </span>
+                    </div>
                     
                     <div className="grid grid-cols-2 gap-2 md:gap-3">
                       <button
@@ -804,6 +865,24 @@ export default function AccountPage() {
             </motion.div>
           )}
         </AnimatePresence>
+
+          {/* IDENTITY TAB */}
+          {activeTab === "identity" && (
+            <motion.div
+              key="identity"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="max-w-2xl"
+            >
+              <KycForm
+                theme="light"
+                defaultName={`${displayUser.firstName} ${displayUser.lastName}`.trim()}
+                currentStatus={kycStatus}
+                onStatusChange={(s) => setKycStatus(s)}
+              />
+            </motion.div>
+          )}
       </div>
 
       {/* Edit Profile Modal */}
@@ -1121,6 +1200,7 @@ export default function AccountPage() {
           </Modal>
         )}
       </AnimatePresence>
+
     </main>
   );
 }

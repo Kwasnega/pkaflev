@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import type { KycStatus } from "@/lib/mock-types";
 import {
   ArrowUpRight,
   CheckCircle2,
@@ -127,6 +128,12 @@ function formatDate(dateString: string) {
 export default function PartnerDashboardPage() {
   const partner = mockPartnerProfile;
   const [copied, setCopied] = useState(false);
+  const [kycStatus, setKycStatus] = useState<KycStatus>("unverified");
+
+  useEffect(() => {
+    const savedStatus = localStorage.getItem("pkaf-partner-kyc") as KycStatus | null;
+    setKycStatus(savedStatus ?? partner.kycStatus);
+  }, [partner.kycStatus]);
 
   const handleCopyLink = async () => {
     try {
@@ -173,7 +180,20 @@ export default function PartnerDashboardPage() {
     <div className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Welcome, {partner.name}</h1>
+          <h1 className="text-2xl font-bold flex items-center gap-3">
+            Welcome, {partner.name}
+            <span className={`px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full border ${
+              kycStatus === "verified" ? "bg-green-500/10 text-green-400 border-green-500/20" :
+              kycStatus === "pending" ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
+              kycStatus === "rejected" ? "bg-red-500/10 text-red-400 border-red-500/20" :
+              "bg-white/5 text-white/50 border-white/10"
+            }`}>
+              {kycStatus === "verified" ? "Verified" :
+               kycStatus === "pending" ? "Pending Review" :
+               kycStatus === "rejected" ? "Unverified" :
+               "Unverified"}
+            </span>
+          </h1>
           <p className="mt-1 text-sm text-white/50">
             Track your referrals, commissions, and payout history.
           </p>

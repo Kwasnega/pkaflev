@@ -17,7 +17,7 @@ import { TrustBadges } from "./trust-badges";
 
 const formatCategoryLabel = (category: string) => {
     const key = typeof category === 'string' ? category.toUpperCase() : String(category);
-    if (key === "ALL") return "All Items";
+    if (key === "ALL") return "All Products";
     if (key === "SCOOTERS") return "Electric Scooters";
     if (key === "BIKES") return "Electric Bikes";
     if (key === "MOTORBIKES") return "Motorbikes";
