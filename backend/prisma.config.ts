@@ -1,9 +1,11 @@
 import { defineConfig } from 'prisma/config';
-import 'dotenv/config'; // This loads your .env file
+import 'dotenv/config';
+
+const databaseUrl = process.env.DATABASE_URL ?? 'postgresql://postgres:postgres@localhost:5432/lev?schema=public';
 
 export default defineConfig({
-  schema: "prisma/schema.prisma",
+  schema: 'prisma/schema.prisma',
   datasource: {
-    url: process.env.DATABASE_URL as string
-  }
+    url: databaseUrl,
+  },
 });

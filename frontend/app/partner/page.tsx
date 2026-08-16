@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { PkaflevHero } from "@/components/pkaflev-hero";
 import { getPartnerHeroMedia } from "@/lib/homepage-content";
+import { getBackendUrl } from "@/lib/api-config";
 
 export default function PartnerPage() {
   const [form, setForm] = useState({
@@ -30,11 +31,20 @@ export default function PartnerPage() {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch("/api/partner", {
+      const generatedPassword = `pkaf-${Math.random().toString(36).slice(2, 10)}!`;
+      const res = await fetch(getBackendUrl("/api/auth/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          email: form.email,
+          password: generatedPassword,
+          name: form.contactName || form.businessName,
+          role: "affiliate",
+        }),
       });
+
+      const payload = await res.json().catch(() => null);
+
       if (res.ok) {
         setStatus("success");
         setForm({
@@ -49,9 +59,11 @@ export default function PartnerPage() {
           message: "",
         });
       } else {
+        console.error("Partner registration failed:", payload);
         setStatus("error");
       }
     } catch (err) {
+      console.error("Partner registration error:", err);
       setStatus("error");
     }
   }

@@ -159,6 +159,19 @@ exports.Prisma.ProductScalarFieldEnum = {
   stock_quantity: 'stock_quantity'
 };
 
+exports.Prisma.ProductImageScalarFieldEnum = {
+  image_id: 'image_id',
+  product_id: 'product_id',
+  image_url: 'image_url'
+};
+
+exports.Prisma.WishlistScalarFieldEnum = {
+  wishlist_id: 'wishlist_id',
+  user_id: 'user_id',
+  product_id: 'product_id',
+  created_at: 'created_at'
+};
+
 exports.Prisma.OrderScalarFieldEnum = {
   order_id: 'order_id',
   client_id: 'client_id',
@@ -213,6 +226,8 @@ exports.Prisma.ModelName = {
   Affiliate: 'Affiliate',
   Payout: 'Payout',
   Product: 'Product',
+  ProductImage: 'ProductImage',
+  Wishlist: 'Wishlist',
   Order: 'Order',
   OrderItem: 'OrderItem',
   AffiliateReferral: 'AffiliateReferral',

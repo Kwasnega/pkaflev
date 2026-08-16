@@ -16,6 +16,7 @@ model User {
 
   affiliates Affiliate?
   orders     Order[]
+  wishlists  Wishlist[]
 }
 
 model Affiliate {
@@ -52,10 +53,32 @@ model Product {
   price          Decimal
   cost_price     Decimal @default(0.00)
   description    String?
-  image          String?
+  image          String? // Kept for backward compatibility if needed (e.g. main thumbnail)
   stock_quantity Int     @default(0)
 
   order_items OrderItem[]
+  images      ProductImage[] // Supports multiple images per product
+  wishlists   Wishlist[]
+}
+
+model ProductImage {
+  image_id   Int    @id @default(autoincrement())
+  product_id Int
+  image_url  String
+
+  product Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+}
+
+model Wishlist {
+  wishlist_id Int      @id @default(autoincrement())
+  user_id     Int
+  product_id  Int
+  created_at  DateTime @default(now())
+
+  user    User    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+
+  @@unique([user_id, product_id]) // Prevents duplicate wishlist entries for the same product
 }
 
 model Order {
