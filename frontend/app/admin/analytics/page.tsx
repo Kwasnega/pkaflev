@@ -18,7 +18,8 @@ import {
     CheckCircle2,
     Loader2
 } from "lucide-react";
-import { orders as mockOrders } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /admin/analytics once backend is ready
+const mockOrders: any[] = [];
 import { format, subDays, startOfDay, endOfDay, parseISO } from "date-fns";
 import { parseMoney, resolveOrderItemLineTotal } from "@/lib/price";
 

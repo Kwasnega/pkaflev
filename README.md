@@ -1,6 +1,6 @@
-# PKAF LEV
+# PKAF STORE
 
-PKAF LEV is an ecommerce platform for premium urban mobility products with an integrated affiliate and referral system.
+PKAF STORE is an ecommerce platform for premium urban mobility products with an integrated affiliate and referral system.
 
 The repository contains the Next.js frontend, Node.js/TypeScript backend, Prisma schema, and system design documentation.
 

@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
-import { users as mockUsers } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /auth/me once backend is ready
+const mockUsers: any[] = [];
 
 interface AuthUser {
   uid: string;

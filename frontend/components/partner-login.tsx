@@ -58,7 +58,7 @@ export function PartnerLogin() {
           </div>
 
           <p className="mb-8 text-sm leading-6 text-slate-300">
-            Sign in to track referrals, commissions, and payouts from your PKAF LEV affiliate dashboard.
+            Sign in to track referrals, commissions, and payouts from your PKAF STORE affiliate dashboard.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">

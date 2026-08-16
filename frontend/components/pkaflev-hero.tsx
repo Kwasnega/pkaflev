@@ -25,8 +25,8 @@ interface PkaflevHeroProps {
 export const PkaflevHero = ({
     imageSrc = "/images/hero/hero-main.jpg",
     videoSrc,
-    imageAlt = "PKAF LEV Hero",
-    leftText = "PKAF LEV",
+    imageAlt = "PKAF STORE Hero",
+    leftText = "PKAF STORE",
     leftButtonText = "SHOP NOW",
     leftButtonHref = "/shop",
     rightButtonText,
@@ -168,7 +168,7 @@ export const PkaflevHero = ({
                         {leftText}
                     </h1>
                     <p ref={taglineRef} className="hero-content-reveal mt-4 md:mt-6 text-[10px] md:text-xs font-light tracking-[0.4em] uppercase" style={{ color: "#000" }}>
-                        RIDE THE FUTURE
+                        POWER YOUR EVERYDAY.
                     </p>
                 </div>
             </div>

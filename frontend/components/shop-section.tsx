@@ -21,6 +21,8 @@ const formatCategoryLabel = (category: string) => {
     if (key === "SCOOTERS") return "Electric Scooters";
     if (key === "BIKES") return "Electric Bikes";
     if (key === "MOTORBIKES") return "Motorbikes";
+    if (key === "APPLIANCES") return "Appliances";
+    if (key === "ELECTRICALS") return "Electricals";
     if (key === "ACCESSORIES") return "Accessories";
     return String(category).replace(/[-_]/g, " ");
 };
@@ -62,6 +64,8 @@ export function ProductCard({
         ? product.range ? `${product.range} range` : product.chargeTime ? `${product.chargeTime} charge` : ""
         : product.category === "motorbikes"
         ? product.topSpeed ? `${product.topSpeed} top speed` : product.motorPower ? `${product.motorPower} power` : ""
+        : product.category === "appliances" || product.category === "electricals"
+        ? product.powerRating ? product.powerRating : product.keyFeatures?.[0] ?? ""
         : "";
     
     return (
@@ -336,9 +340,9 @@ export function ShopSection({ category: initialCategory }: { category?: string }
     const gridRef = useRef<HTMLDivElement>(null);
     const sortRef = useRef<HTMLDivElement>(null);
 
-    // Fixed LEV categories (keeps UI pattern unchanged)
+    // All store categories
     const categories = useMemo(() => {
-        return ["ALL", "SCOOTERS", "BIKES", "MOTORBIKES", "ACCESSORIES"];
+        return ["ALL", "SCOOTERS", "BIKES", "MOTORBIKES", "APPLIANCES", "ELECTRICALS", "ACCESSORIES"];
     }, [products]);
 
     useEffect(() => {

@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export function AdminLogin() {
   const router = useRouter();
   const { login } = useAuth();
-  const [email, setEmail] = useState("admin@pkaflev.com");
+  const [email, setEmail] = useState("admin@pkafstore.com");
   const [password, setPassword] = useState("admin123");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -50,7 +50,7 @@ export function AdminLogin() {
           </div>
 
           <p className="mb-8 text-sm leading-6 text-slate-300">
-            Sign in to manage products, orders, and updates for the PKAF LEV storefront.
+            Sign in to manage products, orders, and updates for the PKAF STORE storefront.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -60,7 +60,7 @@ export function AdminLogin() {
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="admin@pkaflev.com"
+                placeholder="admin@pkafstore.com"
                 className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-950/70 px-4 py-4 text-sm text-white shadow-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-sky-300/20"
                 autoComplete="email"
                 required
@@ -94,7 +94,7 @@ export function AdminLogin() {
 
           <div className="mt-8 rounded-3xl border border-white/10 bg-slate-900/70 p-5 text-sm text-slate-300">
             <p className="font-semibold uppercase tracking-[0.18em] text-slate-200">Demo credentials</p>
-            <p className="mt-2 text-sm leading-6">Email: <span className="font-medium text-white">admin@pkaflev.com</span></p>
+            <p className="mt-2 text-sm leading-6">Email: <span className="font-medium text-white">admin@pkafstore.com</span></p>
             <p>Password: <span className="font-medium text-white">admin123</span></p>
           </div>
         </div>

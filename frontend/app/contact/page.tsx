@@ -22,8 +22,8 @@ export default function ContactPage() {
                             <div>
                                 <h2 className="text-[9px] tracking-[0.3em] uppercase text-black/40 mb-4">Inquiries</h2>
                                 <p className="text-sm tracking-widest font-light">
-                                    General: info@pkaflev.com<br />
-                                    Support: support@pkaflev.com
+                                    General: info@pkafstore.com<br />
+                                    Support: support@pkafstore.com
                                 </p>
                             </div>
 
@@ -40,7 +40,7 @@ export default function ContactPage() {
                             <div>
                                 <h2 className="text-[9px] tracking-[0.3em] uppercase text-black/40 mb-4">Location</h2>
                                 <p className="text-sm tracking-widest font-light uppercase">
-                                    PKAF LEV Studio<br />
+                                    PKAF STORE Studio<br />
                                     East Legon, Area 46<br />
                                     Accra, Ghana
                                 </p>

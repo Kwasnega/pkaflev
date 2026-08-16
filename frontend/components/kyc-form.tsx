@@ -528,7 +528,7 @@ export function KycForm({
             {/* Consent note */}
             <p className={`text-[10px] leading-relaxed ${subColor}`}>
               By submitting this form you confirm that the information provided is
-              accurate and that you consent to PKAF LEV processing your identity
+              accurate and that you consent to PKAF STORE processing your identity
               documents for verification purposes in accordance with our Privacy
               Policy.
             </p>

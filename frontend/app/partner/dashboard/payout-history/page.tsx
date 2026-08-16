@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, Wallet } from "lucide-react";
-import { mockPartnerProfile } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /partner/payouts once backend is ready
+const mockPartnerProfile: any = { payouts: [] };
 import { formatGhs } from "@/lib/price";
 
 function formatDate(dateString: string) {

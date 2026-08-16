@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { CheckCircle2, ChevronDown, ChevronUp, ShieldAlert, Users } from "lucide-react";
-import { users as mockUsers } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /admin/kyc once backend is ready
+const mockUsers: any[] = [];
 import type { KycStatus } from "@/lib/mock-types";
 
 function KycStatusBadge({ status }: { status: KycStatus }) {

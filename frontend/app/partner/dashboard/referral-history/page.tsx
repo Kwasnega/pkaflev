@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, Clock, Link2 } from "lucide-react";
-import { mockPartnerProfile } from "@/lib/mock-data";
-import type { PayoutStatus } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /partner/referrals once backend is ready
+type PayoutStatus = any;
+const mockPartnerProfile: any = { referrals: [] };
+
+
 import { formatGhs } from "@/lib/price";
 
 function PayoutStatusBadge({ status }: { status: PayoutStatus }) {

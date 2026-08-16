@@ -242,6 +242,8 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
                 { name: "Electric Scooters", href: "/shop?category=ELECTRIC%20SCOOTERS" },
                 { name: "Electric Bikes", href: "/shop?category=ELECTRIC%20BIKES" },
                 { name: "Motorbikes", href: "/shop?category=MOTORBIKES" },
+                { name: "Appliances", href: "/shop?category=APPLIANCES" },
+                { name: "Electricals", href: "/shop?category=ELECTRICALS" },
                 { name: "Accessories", href: "/shop?category=ACCESSORIES" },
             ],
         },
@@ -256,6 +258,8 @@ export const PkaflevHeader = ({ className }: PkaflevHeaderProps) => {
                 { name: "Electric Scooters", href: "/shop?category=ELECTRIC%20SCOOTERS" },
                 { name: "Electric Bikes", href: "/shop?category=ELECTRIC%20BIKES" },
                 { name: "Motorbikes", href: "/shop?category=MOTORBIKES" },
+                { name: "Appliances", href: "/shop?category=APPLIANCES" },
+                { name: "Electricals", href: "/shop?category=ELECTRICALS" },
                 { name: "Accessories", href: "/shop?category=ACCESSORIES" },
             ],
             featured: [

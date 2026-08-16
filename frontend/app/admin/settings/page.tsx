@@ -101,9 +101,9 @@ export default function SettingsPage() {
         maintenanceMode: false,
         
         // Contact info
-        storeEmail: 'info@pkaflev.com',
+        storeEmail: 'info@pkafstore.com',
         storePhone: '+233 55 123 4567',
-        supportEmail: 'support@pkaflev.com',
+        supportEmail: 'support@pkafstore.com',
         
         // Shipping
         deliveryFee: 25,
@@ -123,8 +123,8 @@ export default function SettingsPage() {
         marketingEmails: false,
         
         // General
-        storeName: 'PKAF LEV',
-        storeTagline: 'WE WEAR THE FUTURE',
+        storeName: 'PKAF STORE',
+        storeTagline: 'POWER YOUR EVERYDAY.',
         announcement: '',
     });
     
@@ -302,13 +302,13 @@ export default function SettingsPage() {
                                     label="Store Email"
                                     value={settings.storeEmail}
                                     onChange={(v) => updateSetting('storeEmail', v)}
-                                    placeholder="info@pkaflev.com"
+                                    placeholder="info@pkafstore.com"
                                 />
                                 <InputField
                                     label="Support Email"
                                     value={settings.supportEmail}
                                     onChange={(v) => updateSetting('supportEmail', v)}
-                                    placeholder="support@pkaflev.com"
+                                    placeholder="support@pkafstore.com"
                                 />
                                 <InputField
                                     label="Store Phone"
@@ -351,7 +351,7 @@ export default function SettingsPage() {
                                         />
                                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 text-sm font-bold">%</span>
                                     </div>
-                                    <p className="text-xs text-white/40">Charged to customers on every order. The payment processor takes ~1.5%; the remainder goes to PKAF LEV.</p>
+                                    <p className="text-xs text-white/40">Charged to customers on every order. The payment processor takes ~1.5%; the remainder goes to PKAF STORE.</p>
                                 </div>
                                 
                                 <ToggleSwitch
@@ -416,13 +416,13 @@ export default function SettingsPage() {
                                     label="Store Name"
                                     value={settings.storeName}
                                     onChange={(v) => updateSetting('storeName', v)}
-                                    placeholder="PKAF LEV"
+                                    placeholder="PKAF STORE"
                                 />
                                 <InputField
                                     label="Store Tagline"
                                     value={settings.storeTagline}
                                     onChange={(v) => updateSetting('storeTagline', v)}
-                                    placeholder="WE WEAR THE FUTURE"
+                                    placeholder="POWER YOUR EVERYDAY."
                                 />
                                 <InputField
                                     label="Announcement Banner"

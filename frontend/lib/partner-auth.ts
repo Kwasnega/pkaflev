@@ -1,7 +1,7 @@
 export const PARTNER_AUTH_FLAG = "pkaf_partner_auth";
 export const PARTNER_ACCOUNTS_KEY = "pkaf_partner_accounts";
 
-export const PARTNER_DEMO_EMAIL = "partner@pkaflev.com";
+export const PARTNER_DEMO_EMAIL = "partner@pkafstore.com";
 export const PARTNER_DEMO_PASSWORD = "partner123";
 
 export type PartnerAccount = {

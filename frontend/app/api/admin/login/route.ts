@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { users as mockUsers } from "@/lib/mock-data";
+// TODO: replace with real API call — see POST /admin/login once backend is ready
+const mockUsers: any[] = [];
 import { createAdminSessionValue, getAdminSessionSecret, SESSION_COOKIE_NAME } from "@/lib/admin-session";
 
 export async function POST(req: Request) {
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
   }
 
   const adminPasswords: Record<string, string> = {
-    "admin@pkaflev.com": "admin123",
+    "admin@pkafstore.com": "admin123",
   };
 
   if (!adminPasswords[email] || adminPasswords[email] !== password) {

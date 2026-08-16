@@ -3,7 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import type { User, Order, Address } from "@/lib/db-schema";
-import { users as mockUsers, addresses as mockAddresses } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /users/me once backend is ready
+const mockUsers: any[] = [];
+const mockAddresses: any[] = [];
 
 interface UserData {
   user: User | null;

@@ -17,7 +17,7 @@ const PRELOAD_IMAGES = [
     "/levlogo.png",
 ];
 
-const TAGLINE = "We Wear The Future";
+const TAGLINE = "Power Your Everyday.";
 
 export function SplashScreen({ onComplete }: SplashScreenProps) {
     const [isVisible, setIsVisible] = useState(true);

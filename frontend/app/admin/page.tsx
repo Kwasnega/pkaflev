@@ -19,7 +19,10 @@ import {
 } from "lucide-react";
 import { useProducts } from "@/components/product-provider";
 import Link from "next/link";
-import { orders as mockOrders, users as mockUsers, mockPartnerProfile } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /admin/dashboard once backend is ready
+const mockOrders: any[] = [];
+const mockUsers: any[] = [];
+const mockPartnerProfile: any = null;
 import { formatGhs, parseMoney } from "@/lib/price";
 
 // Animated number counter

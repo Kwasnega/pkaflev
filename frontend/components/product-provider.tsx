@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { mockProducts } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /products once backend is ready
 import type { Product } from "@/lib/mock-types";
 
 export type { Product } from "@/lib/mock-types";
@@ -32,9 +32,9 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         const timer = window.setTimeout(() => {
             try {
                 const saved = window.localStorage.getItem(PRODUCTS_STORAGE_KEY);
-                setProducts(sortProducts(saved ? JSON.parse(saved) as Product[] : mockProducts));
+                setProducts(sortProducts(saved ? JSON.parse(saved) as Product[] : []));
             } catch {
-                setProducts(sortProducts(mockProducts));
+                setProducts(sortProducts([]));
             }
             setIsLoading(false);
         }, 120);

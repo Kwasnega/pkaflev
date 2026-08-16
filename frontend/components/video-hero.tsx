@@ -166,7 +166,7 @@ export function VideoHero({
       >
         <p className="text-white/40 text-[10px] font-bold tracking-[0.4em] uppercase writing-mode-vertical transform -rotate-180"
            style={{ writingMode: "vertical-rl" }}>
-          PKAF LEV — EST. 2024
+          PKAF STORE — EST. 2024
         </p>
       </motion.div>
     </section>

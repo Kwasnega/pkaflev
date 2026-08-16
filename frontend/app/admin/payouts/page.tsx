@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { ArrowDownRight, ArrowUpRight, CheckCircle2, Clock3, Download, Wallet, XCircle } from "lucide-react";
-import { mockPartnerProfile } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /admin/payouts once backend is ready
+const mockPartnerProfile: any = null;
 import { formatGhs } from "@/lib/price";
 
 type PayoutRequestStatus = "pending" | "approved" | "declined";
@@ -34,7 +35,7 @@ export default function AdminPayoutsPage() {
     {
       id: "pr-101",
       partnerName: "James Doe",
-      email: "partner@pkaflev.com",
+      email: "partner@pkafstore.com",
       amount: 720,
       method: "Mobile Money",
       destination: "+233 20 123 4567 • MTN",
@@ -115,7 +116,7 @@ export default function AdminPayoutsPage() {
     <div className="space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.28em] text-white/50">PKAF LEV Admin</p>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-white/50">PKAF STORE Admin</p>
           <h1 className="mt-2 text-2xl font-bold text-white">Payouts</h1>
         </div>
         <button

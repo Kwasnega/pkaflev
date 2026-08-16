@@ -1,5 +1,7 @@
-import { affiliates } from "@/lib/mock-data";
-import { mockPartnerProfile } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /partner/leaderboard once backend is ready
+const affiliates: any[] = [];
+const mockPartnerProfile: any = { id: "" };
+
 
 export interface LeaderboardEntry {
   id: string;

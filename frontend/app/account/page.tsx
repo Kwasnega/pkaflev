@@ -998,7 +998,7 @@ export default function AccountPage() {
             <div id="receipt-content" className="space-y-6 print:p-0">
               {/* Receipt Header (Only visible when printing) */}
               <div className="hidden print:block text-center mb-8 border-b-2 border-black pb-6">
-                <h1 className="text-3xl font-black tracking-tighter uppercase mb-2">PKAF LEV</h1>
+                <h1 className="text-3xl font-black tracking-tighter uppercase mb-2">PKAF STORE</h1>
                 <p className="text-[10px] font-bold tracking-widest uppercase text-neutral-500">Official Purchase Receipt</p>
               </div>
 
@@ -1116,7 +1116,7 @@ export default function AccountPage() {
               {/* Receipt Footer (Only visible when printing) */}
               <div className="hidden print:block text-center mt-12 border-t border-neutral-100 pt-8">
                 <p className="text-[10px] font-bold tracking-widest uppercase text-neutral-400 mb-2">Thank you for your purchase</p>
-                <p className="text-[9px] text-neutral-300 uppercase tracking-[0.3em]">PKAF LEV © 2026</p>
+                <p className="text-[9px] text-neutral-300 uppercase tracking-[0.3em]">PKAF STORE © 2026</p>
               </div>
             </div>
           </Modal>

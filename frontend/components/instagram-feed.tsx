@@ -26,9 +26,9 @@ export function InstagramFeed() {
           className="text-center mb-12"
         >
           <p className="text-[10px] tracking-[0.6em] uppercase text-white/40 mb-4">Follow Us</p>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-4">@pkaf_lev</h2>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-4">@pkaf_store</h2>
           <a 
-            href="https://www.instagram.com/pkaf_lev" 
+            href="https://www.instagram.com/pkaf_store" 
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm"
@@ -44,7 +44,7 @@ export function InstagramFeed() {
           {INSTAGRAM_IMAGES.map((image, index) => (
             <motion.a
               key={index}
-              href="https://www.instagram.com/pkaf_lev"
+              href="https://www.instagram.com/pkaf_store"
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 30 }}
@@ -77,7 +77,7 @@ export function InstagramFeed() {
           className="text-center mt-12"
         >
           <a
-            href="https://www.instagram.com/pkaf_lev"
+            href="https://www.instagram.com/pkaf_store"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 border border-white/20 text-white text-xs tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all duration-300"

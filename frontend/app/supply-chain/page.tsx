@@ -19,7 +19,7 @@ export default function SupplyChainPage() {
                         <section className="max-w-2xl">
                             <h2 className="text-[9px] tracking-[0.3em] uppercase text-black/40 mb-4">Ethical Sourcing</h2>
                             <p className="text-sm leading-relaxed tracking-widest font-light mb-4">
-                                At PKAF LEV, we believe that the beauty of a product lies not only in its design but in the integrity of its creation. We are dedicated to ensuring that our entire supply chain operates ethically and transparently.
+                                At PKAF STORE, we believe that the beauty of a product lies not only in its design but in the integrity of its creation. We are dedicated to ensuring that our entire supply chain operates ethically and transparently.
                             </p>
                         </section>
 

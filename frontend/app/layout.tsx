@@ -10,12 +10,12 @@ import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata: Metadata = {
   title: {
-    default: "PKAF LEV | Premium LEV Experiences",
-    template: "%s | PKAF LEV",
+    default: "PKAF STORE | Premium Multi-Category Store",
+    template: "%s | PKAF STORE",
   },
-  description: "Discover premium LEV experiences at PKAF LEV. Shop electric mobility, range-boosting gear, and partner solutions. WE WEAR THE FUTURE.",
+  description: "Discover premium products at PKAF STORE. Shop the latest in fashion, gear, accessories, and more. POWER YOUR EVERYDAY.",
   keywords: [
-    "PKAF LEV",
+    "PKAF STORE",
     "streetwear",
     "urban fashion",
     "premium clothing",
@@ -27,24 +27,24 @@ export const metadata: Metadata = {
     "Ghana fashion",
     "African streetwear",
   ],
-  authors: [{ name: "PKAF LEV" }],
-  creator: "PKAF LEV",
-  publisher: "PKAF LEV",
-  metadataBase: new URL("https://pkaflev.com"),
+  authors: [{ name: "PKAF STORE" }],
+  creator: "PKAF STORE",
+  publisher: "PKAF STORE",
+  metadataBase: new URL("https://pkafstore.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "PKAF LEV | Premium LEV Experiences",
-    description: "Discover premium LEV experiences. Shop electric mobility, range-boosting gear, and partner solutions. WE WEAR THE FUTURE.",
-    url: "https://pkaflev.com",
-    siteName: "PKAF LEV",
+    title: "PKAF STORE | Premium Multi-Category Store",
+    description: "Discover premium products at PKAF STORE. Shop the latest in fashion, gear, accessories, and more. POWER YOUR EVERYDAY.",
+    url: "https://pkafstore.com",
+    siteName: "PKAF STORE",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "PKAF LEV - Premium LEV Experiences",
+        alt: "PKAF STORE - Premium Multi-Category Store",
       },
     ],
     locale: "en_US",
@@ -52,10 +52,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PKAF LEV | Premium LEV Experiences",
-    description: "Discover premium LEV experiences. Shop electric mobility, range-boosting gear, and partner solutions. WE WEAR THE FUTURE.",
+    title: "PKAF STORE | Premium Multi-Category Store",
+    description: "Discover premium products at PKAF STORE. Shop the latest in fashion, gear, accessories, and more. POWER YOUR EVERYDAY.",
     images: ["/og-image.jpg"],
-    creator: "@pkaflev",
+    creator: "@pkafstore",
   },
   robots: {
     index: true,

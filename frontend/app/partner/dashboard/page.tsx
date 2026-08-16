@@ -15,8 +15,11 @@ import {
   UserPlus,
   Wallet,
 } from "lucide-react";
-import { mockPartnerProfile } from "@/lib/mock-data";
-import type { PayoutStatus } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /partner/dashboard once backend is ready
+type PayoutStatus = any;
+const mockPartnerProfile: any = { code: "", referredUsers: 0, completedOrders: 0, availableBalance: 0, lifetimeEarnings: 0, nextPayoutDate: "", nextPayoutAmount: 0, payouts: [], referrals: [] };
+
+
 import { formatGhs } from "@/lib/price";
 import { NewsletterPopup } from "@/components/newsletter-popup";
 

@@ -66,16 +66,21 @@ export default function ProductPage() {
   };
 
   const specs = [
-    { k: 'Motor Power', v: (product as any).motorPower },
-    { k: 'Battery', v: (product as any).batteryCapacity },
-    { k: 'Range', v: (product as any).range },
-    { k: 'Top Speed', v: (product as any).topSpeed },
-    { k: 'Charge Time', v: (product as any).chargeTime },
-    { k: 'Weight', v: (product as any).weight },
-    { k: 'Max Load', v: (product as any).maxLoad },
-    { k: 'Warranty', v: (product as any).warranty },
-    { k: 'Condition', v: (product as any).condition },
+    { k: 'Motor Power', v: product.motorPower },
+    { k: 'Battery', v: product.batteryCapacity },
+    { k: 'Range', v: product.range },
+    { k: 'Top Speed', v: product.topSpeed },
+    { k: 'Charge Time', v: product.chargeTime },
+    { k: 'Weight', v: product.weight },
+    { k: 'Max Load', v: product.maxLoad },
+    { k: 'Power Rating', v: product.powerRating },
+    { k: 'Dimensions', v: product.dimensions },
+    { k: 'Item Weight', v: product.itemWeight },
+    { k: 'Warranty', v: product.warranty },
+    { k: 'Condition', v: product.condition },
   ].filter(s => s.v !== undefined && s.v !== null && s.v !== "");
+
+  const keyFeatures = product.keyFeatures ?? [];
 
   const similar = products.filter(p => p.id !== product.id && p.category === product.category).slice(0,4);
 
@@ -135,6 +140,19 @@ export default function ProductPage() {
                   </div>
                 ))}
               </dl>
+              {keyFeatures.length > 0 && (
+                <div className="mt-4">
+                  <div className="text-[11px] text-black/60 mb-2">KEY FEATURES</div>
+                  <ul className="space-y-1">
+                    {keyFeatures.map((f, i) => (
+                      <li key={i} className="flex items-center gap-2 text-sm text-black/70">
+                        <span className="w-1.5 h-1.5 rounded-full bg-black/40 shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             <div className="mb-6 grid gap-3 md:grid-cols-[1.2fr_0.8fr]">

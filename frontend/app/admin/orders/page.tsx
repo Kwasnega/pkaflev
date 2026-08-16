@@ -25,7 +25,8 @@ import {
     Loader2,
     Download
 } from "lucide-react";
-import { orders as mockOrders } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /admin/orders once backend is ready
+const mockOrders: any[] = [];
 import { formatGhs, resolveOrderItemLineTotal } from "@/lib/price";
 import { ORDER_STATUS_LABELS, ORDER_STATUS_VALUES, type OrderStatus } from "@/lib/order-status";
 
@@ -348,7 +349,7 @@ export default function OrdersPage() {
     const handleExportCsv = () => {
         const date = new Date().toISOString().slice(0, 10);
         downloadCsv(
-            `pkaf-lev-orders-${date}.csv`,
+            `pkaf-store-orders-${date}.csv`,
             ["Order ID", "Customer Name", "Date", "Product(s)", "Total Amount", "Payment Status", "Delivery Status"],
             filteredOrders.map((order) => [
                 order.orderNumber || order.id,

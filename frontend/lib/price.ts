@@ -41,7 +41,7 @@ export const resolveOrderItemUnitPrice = (
   return 0;
 };
 
-// Processing fee: payment processor takes ~1.5%, PKAF LEV keeps the rest
+// Processing fee: payment processor takes ~1.5%, PKAF STORE keeps the rest
 // feePercent defaults to 3 as a safe fallback if settings haven't loaded yet
 export const calculateProcessingFee = (amount: number, feePercent: number = 3): number => {
   const fee = amount * (feePercent / 100);

@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { Banknote, Handshake, LayoutDashboard, Link2, LogOut, Menu, Settings, Trophy, Wallet, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { isPartnerAuthenticated, setPartnerAuthenticated } from "@/lib/partner-auth";
-import { mockPartnerProfile } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /partner/status once backend is ready
+const mockPartnerProfile: any = { status: "approved" };
 import type { KycStatus } from "@/lib/mock-types";
 import { AlertCircle, ShieldAlert } from "lucide-react";
 import { AccountActionsMenu } from "@/components/account-actions-menu";

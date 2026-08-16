@@ -1,4 +1,4 @@
-export type ProductCategory = "scooters" | "bikes" | "motorbikes" | "accessories";
+export type ProductCategory = "scooters" | "bikes" | "motorbikes" | "accessories" | "appliances" | "electricals";
 export type ProductCondition = "new" | "refurbished";
 export type KycStatus = "unverified" | "pending" | "verified" | "rejected";
 
@@ -13,6 +13,7 @@ export interface Product {
   images?: string[];
   price?: string;
   description?: string;
+  // LEV-specific specs (scooters, bikes, motorbikes)
   motorPower?: string;
   batteryCapacity?: string;
   range?: string;
@@ -20,6 +21,12 @@ export interface Product {
   chargeTime?: string;
   weight?: string;
   maxLoad?: string;
+  // Generic specs (appliances, electricals)
+  powerRating?: string;
+  dimensions?: string;
+  itemWeight?: string;
+  keyFeatures?: string[];
+  // Shared
   warranty?: string;
   condition?: ProductCondition | string;
   videoUrl?: string;

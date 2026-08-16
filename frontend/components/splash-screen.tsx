@@ -18,8 +18,8 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     const [showTagline, setShowTagline] = useState(false);
     const [rgbOffset, setRgbOffset] = useState({ r: 0, g: 0, b: 0 });
 
-    const TARGET_TEXT = "PKAF LEV";
-    const TAGLINE = "WE WEAR THE FUTURE";
+    const TARGET_TEXT = "PKAF STORE";
+    const TAGLINE = "POWER YOUR EVERYDAY.";
 
     // Scramble text effect
     const scrambleText = useCallback((target: string, setText: (text: string) => void, duration: number = 1500) => {

@@ -85,7 +85,7 @@ export function LookbookSection({ items = defaultItems }: LookbookSectionProps) 
             <div className="px-6 py-16 md:py-24 text-center">
                 <div className="max-w-2xl mx-auto flex flex-col items-center gap-4">
                     <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-black uppercase">
-                        The PKAF LEV* Lookbook
+                        The PKAF STORE* Lookbook
                     </h2>
                     <p className="text-black/70 text-sm md:text-base font-medium tracking-wide">
                         A canvas of style, worn by the community

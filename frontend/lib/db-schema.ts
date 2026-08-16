@@ -1,4 +1,4 @@
-// Database schema types for PKAF LEV
+// Database schema types for PKAF STORE
 
 import type { ProductCategory, ProductCondition } from "./mock-types";
 import type { OrderStatus } from "./order-status";
@@ -14,6 +14,7 @@ export interface Product {
   images?: string[];
   price?: string;
   description?: string;
+  // LEV-specific specs (scooters, bikes, motorbikes)
   motorPower?: string;
   batteryCapacity?: string;
   range?: string;
@@ -21,6 +22,12 @@ export interface Product {
   chargeTime?: string;
   weight?: string;
   maxLoad?: string;
+  // Generic specs (appliances, electricals)
+  powerRating?: string;
+  dimensions?: string;
+  itemWeight?: string;
+  keyFeatures?: string[];
+  // Shared
   warranty?: string;
   condition?: ProductCondition | string;
   videoUrl?: string;

@@ -2,7 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { CheckCircle2, Clock3, ShieldAlert, Users, ChevronDown, ChevronUp, Plus, KeyRound, Check, Download } from "lucide-react";
-import { affiliates as mockAffiliates, type Affiliate, type AffiliateStatus } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /admin/affiliates once backend is ready
+const mockAffiliates: any[] = [];
+type Affiliate = any;
+type AffiliateStatus = any;
 import { createPartnerAccount, getPartnerAccounts } from "@/lib/partner-auth";
 
 const STATUS_STYLES: Record<AffiliateStatus, string> = {
@@ -148,7 +151,7 @@ export default function AffiliatesPage() {
   const handleExportCsv = () => {
     const date = new Date().toISOString().slice(0, 10);
     downloadCsv(
-      `pkaf-lev-affiliates-${date}.csv`,
+      `pkaf-store-affiliates-${date}.csv`,
       ["Affiliate ID", "Partner Name", "Email", "Referral Code", "Joined Date", "Total Sales", "Total Commission", "Status"],
       affiliates.map((affiliate) => [
         affiliate.id,

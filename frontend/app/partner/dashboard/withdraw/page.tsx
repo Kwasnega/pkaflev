@@ -3,7 +3,8 @@
 import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Banknote, CreditCard, Phone, ShieldAlert } from "lucide-react";
-import { mockPartnerProfile } from "@/lib/mock-data";
+// TODO: replace with real API call — see POST /partner/withdraw once backend is ready
+const mockPartnerProfile: any = { availableBalance: 0 };
 import type { KycStatus } from "@/lib/mock-types";
 import { formatGhs } from "@/lib/price";
 

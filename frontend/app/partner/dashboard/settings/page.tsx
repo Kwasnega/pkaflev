@@ -12,7 +12,8 @@ import {
   ShieldCheck,
   UserRound,
 } from "lucide-react";
-import { mockPartnerProfile } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /partner/settings once backend is ready
+const mockPartnerProfile: any = { paymentDetails: {} };
 import { KycForm } from "@/components/kyc-form";
 import type { KycStatus } from "@/lib/mock-types";
 

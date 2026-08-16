@@ -89,7 +89,7 @@ export function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
           <Check className="h-8 w-8" strokeWidth={3} />
         </div>
         <h3 className="text-xl font-bold text-white">Account created</h3>
-        <p className="mt-2 text-sm text-white/60">You’re ready to start shopping with PKAF LEV.</p>
+        <p className="mt-2 text-sm text-white/60">You’re ready to start shopping with PKAF STORE.</p>
       </div>
     );
   }

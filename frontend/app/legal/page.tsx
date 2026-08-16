@@ -19,7 +19,7 @@ export default function LegalPage() {
                         <section className="max-w-2xl">
                             <h2 className="text-[9px] tracking-[0.3em] uppercase text-black/40 mb-4">Data Protection</h2>
                             <p className="text-sm leading-relaxed tracking-widest font-light mb-4">
-                                PKAF LEV is committed to safeguarding your personal data in strict accordance with the **Data Protection Act, 2012 (Act 843)** of the Republic of Ghana.
+                                PKAF STORE is committed to safeguarding your personal data in strict accordance with the **Data Protection Act, 2012 (Act 843)** of the Republic of Ghana.
                             </p>
                             <p className="text-sm leading-relaxed tracking-widest font-light">
                                 We only collect information essential for transaction processing and service enhancement. Your data is processed with the highest degree of confidentiality and is never disclosed to unauthorized third parties.
@@ -29,7 +29,7 @@ export default function LegalPage() {
                         <section className="max-w-2xl">
                             <h2 className="text-[9px] tracking-[0.3em] uppercase text-black/40 mb-4">Terms of Access</h2>
                             <p className="text-sm leading-relaxed tracking-widest font-light">
-                                By utilizing this portal, you agree to comply with our standards of use. All content, including imagery, typography, and design elements, remains the intellectual property of PKAF LEV and is protected under Ghanaian and International copyright laws.
+                                By utilizing this portal, you agree to comply with our standards of use. All content, including imagery, typography, and design elements, remains the intellectual property of PKAF STORE and is protected under Ghanaian and International copyright laws.
                             </p>
                         </section>
 

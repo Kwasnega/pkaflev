@@ -5,7 +5,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     const { category: categoryParam } = await params;
     const category = categoryParam.charAt(0).toUpperCase() + categoryParam.slice(1);
     return {
-        title: `${category} | PKAF LEV`,
+        title: `${category} | PKAF STORE`,
         description: `Browse our ${category} collection.`,
     };
 }

@@ -30,9 +30,9 @@ export default function Home() {
         <PkaflevHero
           videoSrc={heroImages[1]?.videoUrl || ""}
           imageSrc={heroImages[1]?.url || "/purescooter.jpg"}
-          leftText="FROM CITY TO COMMUTE"
-          leftButtonText="SHOP RIDES"
-          leftButtonHref="/shop?category=ELECTRIC%20SCOOTERS"
+          leftText="POWER YOUR EVERYDAY."
+          leftButtonText="SHOP NOW"
+          leftButtonHref="/shop"
           rightButtonText="PARTNER WITH US"
           rightButtonHref="/partner"
         />
@@ -41,7 +41,7 @@ export default function Home() {
           <div className="animate-marquee flex whitespace-nowrap">
             {[...Array(2)].map((_, i) => (
               <span key={i} className="mx-8 text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase text-white/60">
-                FREE DELIVERY • 12-MONTH WARRANTY • NATIONWIDE SERVICE CENTERS • FLEXIBLE PAYMENT PLANS • EARN AS A PARTNER • FREE DELIVERY • 12-MONTH WARRANTY • NATIONWIDE SERVICE CENTERS • FLEXIBLE PAYMENT PLANS • EARN AS A PARTNER •
+             FREE DELIVERY • 12-MONTH WARRANTY • NATIONWIDE SUPPORT • FLEXIBLE PAYMENT PLANS • EARN AS A PARTNER • FREE DELIVERY • 12-MONTH WARRANTY • NATIONWIDE SUPPORT • FLEXIBLE PAYMENT PLANS • EARN AS A PARTNER •
               </span>
             ))}
           </div>

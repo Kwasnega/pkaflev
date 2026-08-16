@@ -19,7 +19,8 @@ import {
     GripVertical
 } from "lucide-react";
 import Image from "next/image";
-import { DEFAULT_GALLERY_SPREADS } from "@/lib/mock-data/gallery";
+// TODO: replace with real API call — see GET /gallery once backend is ready
+const DEFAULT_GALLERY_SPREADS: any[] = [];
 
 const MAX_RUNWAY_IMAGES = 8;
 

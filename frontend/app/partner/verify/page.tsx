@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ShieldAlert } from "lucide-react";
 import { KycForm } from "@/components/kyc-form";
-import { mockPartnerProfile } from "@/lib/mock-data";
+// TODO: replace with real API call — see GET /partner/status once backend is ready
+const mockPartnerProfile: any = { status: "pending" };
 import type { KycStatus } from "@/lib/mock-types";
 
 export default function PartnerVerifyPage() {
